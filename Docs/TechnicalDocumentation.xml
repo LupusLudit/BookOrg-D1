@@ -1,0 +1,87 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>BookOrg</name>
+    </assembly>
+    <members>
+        <member name="T:BookOrg.App">
+            <summary>
+            Interaction logic for App.xaml
+            </summary>
+            <summary>
+            App
+            </summary>
+        </member>
+        <member name="M:BookOrg.App.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="M:BookOrg.App.Main">
+            <summary>
+            Application Entry Point.
+            </summary>
+        </member>
+        <member name="T:BookOrg.Debugging.Logger">
+            <summary>
+			Static class used for thread-safe logging.
+			Writes timestamped log entries into per-day log files under the application Log directory.
+		</summary>
+        </member>
+        <member name="M:BookOrg.Debugging.Logger.GetTodaysFilePath">
+            <summary>
+            Gets the todays log file path.
+            </summary>
+            <returns>Path to the log file (string).</returns>
+        </member>
+        <member name="M:BookOrg.Debugging.Logger.Write(BookOrg.Debugging.LogType,System.String)">
+            <summary>
+            Writes the a passed message (with a specific type) into todays log file.
+            </summary>
+            <param name="type">The type of the message (LogType enum).</param>
+            <param name="message">The specific message to be written into the log file (string).</param>
+        </member>
+        <member name="T:BookOrg.UI.MainWindow">
+            <summary>
+            Interaction logic for MainWindow.xaml
+            </summary>
+            <summary>
+            MainWindow
+            </summary>
+        </member>
+        <member name="M:BookOrg.UI.MainWindow.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:LIMS.Safety.SafeExecutor">
+            <summary>
+			Static utility class responsible for safely executing synchronous and asynchronous actions
+			with standardized error handling.
+		</summary>
+        </member>
+        <member name="M:LIMS.Safety.SafeExecutor.Execute(System.Action,System.String,System.Action)">
+            <summary>
+            Safely executes the specified action.
+            </summary>
+            <param name="action">The action to be executed (in the try block).</param>
+            <param name="errorMessage">The error message to be displayed if the action fails.</param>
+            <param name="finallyAction">The action to be executed in the end (in the finally block).</param>
+        </member>
+        <member name="M:LIMS.Safety.SafeExecutor.ExecuteAsync(System.Func{System.Threading.Tasks.Task},System.String,System.Func{System.Threading.Tasks.Task})">
+            <summary>
+            Safely executes an asynchronous action.
+            </summary>
+            <param name="action">The action to be executed (in the try block).</param>
+            <param name="errorMessage">The error message to be displayed if the action fails.</param>
+            <param name="finallyAction">The action to be executed in the end (in the finally block).</param>
+        </member>
+        <member name="M:LIMS.Safety.SafeExecutor.HandleError(System.Exception,System.String)">
+            <summary>
+            Shows the error to the user and logs it.
+            </summary>
+            <param name="ex">The exception to be logged.</param>
+            <param name="errorMessage">The error message to be displayed (and logged).</param>
+        </member>
+    </members>
+</doc>
