@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace BookOrg.Debugging
+namespace BookOrg.Src.Debugging
 {
     public enum LogType
     {
@@ -9,7 +9,7 @@ namespace BookOrg.Debugging
         Error
     }
 
-    /// <include file='../Docs/ClassDocumentation.xml' path='ClassDocumentation/ClassMembers[@name="Logger"]/*'/>
+    /// <include file='../../Docs/ClassDocumentation.xml' path='ClassDocumentation/ClassMembers[@name="Logger"]/*'/>
     public static class Logger
     {
 

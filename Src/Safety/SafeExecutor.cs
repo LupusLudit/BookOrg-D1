@@ -1,9 +1,9 @@
-﻿using BookOrg.Debugging;
+﻿using BookOrg.Src.Debugging;
 using System.Windows;
 
-namespace LIMS.Safety
+namespace BookOrg.Src.Safety
 {
-    /// <include file='../Docs/ClassDocumentation.xml' path='ClassDocumentation/ClassMembers[@name="SafeExecutor"]/*'/>
+    /// <include file='../../Docs/ClassDocumentation.xml' path='ClassDocumentation/ClassMembers[@name="SafeExecutor"]/*'/>
     public static class SafeExecutor
     {
         /// <summary>
