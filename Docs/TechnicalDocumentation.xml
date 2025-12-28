@@ -83,6 +83,16 @@
             InitializeComponent
             </summary>
         </member>
+        <member name="T:BookOrg.Src.UI.DBInteraction.Controls.BooksControl">
+            <summary>
+            BooksControl
+            </summary>
+        </member>
+        <member name="M:BookOrg.Src.UI.DBInteraction.Controls.BooksControl.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
         <member name="T:BookOrg.Src.UI.DBInteraction.MainWindow">
             <summary>
             MainWindow

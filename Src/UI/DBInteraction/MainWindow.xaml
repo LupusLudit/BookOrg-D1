@@ -9,6 +9,6 @@
         WindowState="Maximized"
         ResizeMode="CanResize">
     <Grid>
-        <ContentControl Content="{Binding CurrentView}" />
+        <ContentControl Content="{Binding CurrentControl}" />
     </Grid>
 </Window>
