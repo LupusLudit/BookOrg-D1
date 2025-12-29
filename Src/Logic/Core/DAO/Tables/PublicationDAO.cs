@@ -9,30 +9,36 @@ namespace BookOrg.Src.Logic.Core.DAO.Tables
 
         public override Publication? GetByID(int id)
         {
-            SqlCommand command = CreateCommand("SELECT id, book_id, author_id, genre_id, note, publication_year FROM publication WHERE id = @id");
+            SqlCommand command = CreateCommand("select id, book_id, author_id, genre_id, note, publication_year from publication where id = @id");
             command.Parameters.AddWithValue("@id", id);
 
-            using var reader = command.ExecuteReader();
-            if (reader.Read())
+            using (SqlDataReader reader = command.ExecuteReader())
             {
-                var book = new Book(reader.GetInt32(1), "", false, 0);
-                var author = new Author(reader.GetInt32(2), "");
-                var genre = new Genre(reader.GetInt32(3), "");
+                if (reader.Read())
+                {
+                    Book book = new Book(reader.GetInt32(1), "", false, 0);
+                    Author author = new Author(reader.GetInt32(2), "");
+                    Genre genre = new Genre(reader.GetInt32(3), "");
 
-                return new Publication(
-                    reader.GetInt32(0),
-                    book, author, genre,
-                    reader.IsDBNull(4) ? "" : reader.GetString(4),
-                    reader.GetInt32(5)
-                );
+                    return new Publication(
+                        reader.GetInt32(0),
+                        book, author, genre,
+                        reader.IsDBNull(4) ? "" : reader.GetString(4),
+                        reader.GetInt32(5)
+                    );
+                }
             }
             return null;
         }
 
         public override void Insert(Publication entity)
         {
-            SqlCommand command = CreateCommand(@"INSERT INTO publication (book_id, author_id, genre_id, note, publication_year) 
-                                                VALUES (@bookId, @authorId, @genreId, @note, @year); SELECT SCOPE_IDENTITY();");
+            string insertQuery = @"
+                insert into publication (book_id, author_id, genre_id, note, publication_year)
+                values (@bookId, @authorId, @genreId, @note, @year);
+                select scope_identity();";
+
+            SqlCommand command = CreateCommand(insertQuery);
 
             command.Parameters.AddWithValue("@bookId", entity.Book.ID);
             command.Parameters.AddWithValue("@authorId", entity.Author.ID);
@@ -44,7 +50,12 @@ namespace BookOrg.Src.Logic.Core.DAO.Tables
 
         public override void Update(Publication entity)
         {
-            SqlCommand command = CreateCommand(@"UPDATE publication SET book_id=@bookId, author_id=@authorId, genre_id=@genreId, note=@note, publication_year=@year WHERE id=@id");
+            string updateQuery = @"
+                update publication
+                set book_id = @bookId,author_id = @authorId, genre_id = @genreId, note = @note, publication_year = @year
+                where id = @id";
+
+            SqlCommand command = CreateCommand(updateQuery);
 
             command.Parameters.AddWithValue("@bookId", entity.Book.ID);
             command.Parameters.AddWithValue("@authorId", entity.Author.ID);
@@ -57,9 +68,15 @@ namespace BookOrg.Src.Logic.Core.DAO.Tables
 
         public override void Delete(Publication entity)
         {
-            SqlCommand command = CreateCommand("DELETE FROM publication WHERE id = @id");
+            SqlCommand command = CreateCommand("delete from publication where id = @id");
+
             command.Parameters.AddWithValue("@id", entity.ID);
             command.ExecuteNonQuery();
+        }
+
+        public override List<Publication> GetAll()
+        {
+            throw new NotImplementedException();
         }
     }
 }

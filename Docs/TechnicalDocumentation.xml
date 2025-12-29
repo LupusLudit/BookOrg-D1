@@ -83,12 +83,35 @@
             InitializeComponent
             </summary>
         </member>
+        <member name="T:BookOrg.Src.UI.DBInteraction.Controls.AuthorControl">
+            <summary>
+            AuthorControl
+            </summary>
+        </member>
+        <member name="M:BookOrg.Src.UI.DBInteraction.Controls.AuthorControl.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
         <member name="T:BookOrg.Src.UI.DBInteraction.Controls.BooksControl">
             <summary>
             BooksControl
             </summary>
         </member>
         <member name="M:BookOrg.Src.UI.DBInteraction.Controls.BooksControl.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:BookOrg.Src.UI.DBInteraction.Controls.GenreControl">
+            <summary>
+            Interaction logic for GenreControl.xaml
+            </summary>
+            <summary>
+            GenreControl
+            </summary>
+        </member>
+        <member name="M:BookOrg.Src.UI.DBInteraction.Controls.GenreControl.InitializeComponent">
             <summary>
             InitializeComponent
             </summary>

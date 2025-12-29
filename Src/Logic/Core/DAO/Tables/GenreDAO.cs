@@ -9,40 +9,59 @@ namespace BookOrg.Src.Logic.Core.DAO.Tables
 
         public override Genre? GetByID(int id)
         {
-            SqlCommand command = CreateCommand("SELECT id, genre_name FROM genre WHERE id = @id");
+            SqlCommand command = CreateCommand("select id, genre_name from genre where id = @id");
             command.Parameters.AddWithValue("@id", id);
 
-            using var reader = command.ExecuteReader();
-            if (reader.Read())
+            using (SqlDataReader reader = command.ExecuteReader())
             {
-                return new Genre(reader.GetInt32(0), reader.GetString(1));
+                if (reader.Read())
+                {
+                    return new Genre(reader.GetInt32(0), reader.GetString(1));
+                }
             }
             return null;
         }
 
-        public override void Insert(Genre entity)
+        public override void Insert(Genre genre)
         {
-            SqlCommand command = CreateCommand("INSERT INTO genre (genre_name) VALUES (@name); SELECT SCOPE_IDENTITY();");
+            SqlCommand command = CreateCommand("insert into genre (genre_name) values (@name); select scope_identity();");
 
-            command.Parameters.AddWithValue("@name", entity.GenreName);
-            entity.ID = Convert.ToInt32(command.ExecuteScalar());
+            command.Parameters.AddWithValue("@name", genre.GenreName);
+            genre.ID = Convert.ToInt32(command.ExecuteScalar());
         }
 
-        public override void Update(Genre entity)
+        public override void Update(Genre genre)
         {
-            SqlCommand command = CreateCommand("UPDATE genre SET genre_name = @name WHERE id = @id");
+            SqlCommand command = CreateCommand("update genre set genre_name = @name where id = @id");
 
-            command.Parameters.AddWithValue("@name", entity.GenreName);
-            command.Parameters.AddWithValue("@id", entity.ID);
+            command.Parameters.AddWithValue("@name", genre.GenreName);
+            command.Parameters.AddWithValue("@id", genre.ID);
             command.ExecuteNonQuery();
         }
 
-        public override void Delete(Genre entity)
+        public override void Delete(Genre genre)
         {
-            SqlCommand command = CreateCommand("DELETE FROM genre WHERE id = @id");
+            SqlCommand command = CreateCommand("delete from genre where id = @id");
 
-            command.Parameters.AddWithValue("@id", entity.ID);
+            command.Parameters.AddWithValue("@id", genre.ID);
             command.ExecuteNonQuery();
+        }
+
+        public override List<Genre> GetAll()
+        {
+            List<Genre> genres = new List<Genre>();
+
+            SqlCommand command = CreateCommand("select id, genre_name from genre");
+
+            using (SqlDataReader reader = command.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    genres.Add(new Genre(reader.GetInt32(0), reader.GetString(1))); 
+                }
+            }
+
+            return genres;
         }
     }
 }

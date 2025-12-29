@@ -16,6 +16,7 @@ namespace BookOrg.Src.Logic.Core.DAO.Tables
         public abstract void Insert(T entity);
         public abstract void Update(T entity);
         public abstract void Delete(T entity);
+        public abstract List<T> GetAll();
 
         protected SqlCommand CreateCommand(string query)
         {
