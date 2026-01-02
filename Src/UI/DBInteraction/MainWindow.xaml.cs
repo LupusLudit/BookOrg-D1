@@ -4,6 +4,8 @@ using System.Windows;
 
 namespace BookOrg.Src.UI.DBInteraction
 {
+    /// <include file='../../../Docs/ClassDocumentation.xml' path='ClassDocumentation/ClassMembers[@name="MainWindow"]/*'/>
+
     public partial class MainWindow : Window
     {
         private readonly SqlConnection connection;
@@ -13,7 +15,7 @@ namespace BookOrg.Src.UI.DBInteraction
             InitializeComponent();
             this.connection = connection;
             // Debugging
-            this.DataContext = new { CurrentControl = new AuthorControl(connection) };
+            this.DataContext = new { CurrentControl = new BooksControl(connection) };
         }
     }
 }

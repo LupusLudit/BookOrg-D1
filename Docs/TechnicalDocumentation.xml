@@ -41,6 +41,182 @@
             <param name="type">The type of the message (LogType enum).</param>
             <param name="message">The specific message to be written into the log file (string).</param>
         </member>
+        <member name="T:BookOrg.Src.Logic.Connection.IConnectionFactory">
+            <summary>
+			Interface for defining a factory class for a specific database connection creation.
+		</summary>
+        </member>
+        <member name="T:BookOrg.Src.Logic.Connection.SqlServerConnectionFactory">
+            <summary>
+			Factory class for creating and initializing connections to the SQL Server database
+			using configuration settings.
+		</summary>
+        </member>
+        <member name="M:BookOrg.Src.Logic.Connection.SqlServerConnectionFactory.CreateConnection">
+            <summary>
+            Creates and opens a connection to the SQL Server database.
+            </summary>
+            <returns>An open SqlConnection object, or null if the connection failed.</returns>
+        </member>
+        <member name="M:BookOrg.Src.Logic.Connection.SqlServerConnectionFactory.ValidateConfig(System.String,System.String,System.String,System.String)">
+            <summary>
+            Validates the database configuration parameters.
+            </summary>
+            <param name="ds">The data source (server address).</param>
+            <param name="db">The database name.</param>
+            <param name="user">The user login ID.</param>
+            <param name="pwd">The user password.</param>
+            <exception cref="T:System.ApplicationException">Thrown when configuration is missing or invalid.</exception>
+        </member>
+        <member name="T:BookOrg.Src.Logic.Core.DAO.AuthorDAO">
+            <summary>
+			Data Access Object for handling database operations related to Authors.
+		</summary>
+        </member>
+        <member name="M:BookOrg.Src.Logic.Core.DAO.AuthorDAO.GetByID(System.Int32)">
+            <summary>
+            Retrieves an Author entity by its unique ID.
+            </summary>
+            <param name="id">The unique identifier of the author.</param>
+            <returns>The found Author object, or null if not found.</returns>
+        </member>
+        <member name="M:BookOrg.Src.Logic.Core.DAO.AuthorDAO.Insert(BookOrg.Src.Logic.Core.DBEntities.Author)">
+            <summary>
+            Inserts a new Author entity into the database.
+            </summary>
+            <param name="author">The Author entity to insert.</param>
+        </member>
+        <member name="M:BookOrg.Src.Logic.Core.DAO.AuthorDAO.Update(BookOrg.Src.Logic.Core.DBEntities.Author)">
+            <summary>
+            Updates an existing Author entity in the database.
+            </summary>
+            <param name="author">The Author entity to update.</param>
+        </member>
+        <member name="M:BookOrg.Src.Logic.Core.DAO.AuthorDAO.Delete(BookOrg.Src.Logic.Core.DBEntities.Author)">
+            <summary>
+            Deletes an Author entity from the database.
+            </summary>
+            <param name="author">The Author entity to delete.</param>
+        </member>
+        <member name="M:BookOrg.Src.Logic.Core.DAO.AuthorDAO.GetAll">
+            <summary>
+            Retrieves all Author entities from the database.
+            </summary>
+            <returns>A list of all Author objects.</returns>
+        </member>
+        <member name="T:BookOrg.Src.Logic.Core.DAO.BookDAO">
+            <summary>
+			Data Access Object for handling database operations related to Books.
+			Manages specific book-related operations and relation synchronization (Authors/Genres).
+		</summary>
+        </member>
+        <member name="M:BookOrg.Src.Logic.Core.DAO.BookDAO.Insert(BookOrg.Src.Logic.Core.DBEntities.Book)">
+            <summary>
+            Inserts a new Book entity into the database, including its relations (Authors and Genres).
+            </summary>
+            <param name="book">The Book entity to insert.</param>
+        </member>
+        <member name="M:BookOrg.Src.Logic.Core.DAO.BookDAO.Update(BookOrg.Src.Logic.Core.DBEntities.Book)">
+            <summary>
+            Updates an existing Book entity in the database, including its relations.
+            </summary>
+            <param name="book">The Book entity to update.</param>
+        </member>
+        <member name="M:BookOrg.Src.Logic.Core.DAO.BookDAO.SyncRelations(BookOrg.Src.Logic.Core.DBEntities.Book,Microsoft.Data.SqlClient.SqlTransaction)">
+            <summary>
+            Synchronizes the many-to-many relations (Authors and Genres) for a book.
+            </summary>
+            <param name="book">The Book entity containing the relations.</param>
+            <param name="transaction">The active SQL transaction.</param>
+        </member>
+        <member name="M:BookOrg.Src.Logic.Core.DAO.BookDAO.GetAll">
+            <summary>
+            Retrieves all Book entities from the database, including their relations.
+            </summary>
+            <returns>A list of Book objects.</returns>
+        </member>
+        <member name="M:BookOrg.Src.Logic.Core.DAO.BookDAO.LoadRelations(BookOrg.Src.Logic.Core.DBEntities.Book)">
+            <summary>
+            Loads the authors and genres for a specific book.
+            </summary>
+            <param name="book">The Book entity to populate.</param>
+        </member>
+        <member name="M:BookOrg.Src.Logic.Core.DAO.BookDAO.Delete(BookOrg.Src.Logic.Core.DBEntities.Book)">
+            <summary>
+            Deletes a Book entity from the database.
+            </summary>
+            <param name="book">The Book entity to delete.</param>
+        </member>
+        <member name="T:BookOrg.Src.Logic.Core.DAO.DAOBase`1">
+            <summary>
+			Abstract base class for Data Access Objects.
+			Provides a common structure and helper methods for database operations on entities.
+		</summary>
+        </member>
+        <member name="M:BookOrg.Src.Logic.Core.DAO.DAOBase`1.CreateCommand(System.String)">
+            <summary>
+            Creates a new SqlCommand using the current connection.
+            </summary>
+            <param name="query">The SQL query string.</param>
+            <returns>A configured SqlCommand object.</returns>
+        </member>
+        <member name="T:BookOrg.Src.Logic.Core.DAO.GenreDAO">
+            <summary>
+			Data Access Object for handling database operations related to Genres.
+		</summary>
+        </member>
+        <member name="M:BookOrg.Src.Logic.Core.DAO.GenreDAO.GetByID(System.Int32)">
+            <summary>
+            Retrieves a Genre entity by its unique ID.
+            </summary>
+            <param name="id">The unique identifier of the genre.</param>
+            <returns>The found Genre object, or null if not found.</returns>
+        </member>
+        <member name="M:BookOrg.Src.Logic.Core.DAO.GenreDAO.Insert(BookOrg.Src.Logic.Core.DBEntities.Genre)">
+            <summary>
+            Inserts a new Genre entity into the database.
+            </summary>
+            <param name="genre">The Genre entity to insert.</param>
+        </member>
+        <member name="M:BookOrg.Src.Logic.Core.DAO.GenreDAO.Update(BookOrg.Src.Logic.Core.DBEntities.Genre)">
+            <summary>
+            Updates an existing Genre entity in the database.
+            </summary>
+            <param name="genre">The Genre entity to update.</param>
+        </member>
+        <member name="M:BookOrg.Src.Logic.Core.DAO.GenreDAO.Delete(BookOrg.Src.Logic.Core.DBEntities.Genre)">
+            <summary>
+            Deletes a Genre entity from the database.
+            </summary>
+            <param name="genre">The Genre entity to delete.</param>
+        </member>
+        <member name="M:BookOrg.Src.Logic.Core.DAO.GenreDAO.GetAll">
+            <summary>
+            Retrieves all Genre entities from the database.
+            </summary>
+            <returns>A list of all Genre objects.</returns>
+        </member>
+        <member name="T:BookOrg.Src.Logic.Core.DBEntities.Author">
+            <summary>
+			Represents an author entity, storing the author's name and unique ID.
+		</summary>
+        </member>
+        <member name="T:BookOrg.Src.Logic.Core.DBEntities.Book">
+            <summary>
+			Represents a book entity in the library, containing details such as title, price,
+			stock availability, and relationships to authors and genres.
+		</summary>
+        </member>
+        <member name="T:BookOrg.Src.Logic.Core.DBEntities.Genre">
+            <summary>
+			Represents a genre entity, storing the genre category name and unique ID.
+		</summary>
+        </member>
+        <member name="T:BookOrg.Src.Logic.Core.DBEntities.IDBEntity">
+            <summary>
+			Interface defining the contract for database entities, ensuring they possess a unique identifier.
+		</summary>
+        </member>
         <member name="T:BookOrg.Src.Safety.SafeExecutor">
             <summary>
 			Static utility class responsible for safely executing synchronous and asynchronous actions
@@ -72,8 +248,9 @@
         </member>
         <member name="T:BookOrg.Src.UI.ConnectionWindow.ConnectionWindow">
             <summary>
-            Interaction logic for ConnectionWindow.xaml
-            </summary>
+			Startup window that handles the initial database connection process.
+			Provides feedback on connection status and options to reload or close.
+		</summary>
             <summary>
             ConnectionWindow
             </summary>
@@ -85,6 +262,10 @@
         </member>
         <member name="T:BookOrg.Src.UI.DBInteraction.Controls.AuthorControl">
             <summary>
+			UI Control for managing the collection of authors.
+			Allows listing, adding, and deleting authors.
+		</summary>
+            <summary>
             AuthorControl
             </summary>
         </member>
@@ -95,7 +276,16 @@
         </member>
         <member name="T:BookOrg.Src.UI.DBInteraction.Controls.BooksControl">
             <summary>
+			UI Control for managing the collection of books.
+			Allows viewing, adding, editing, and deleting books, as well as managing their authors and genres.
+		</summary>
+            <summary>
             BooksControl
+            </summary>
+        </member>
+        <member name="M:BookOrg.Src.UI.DBInteraction.Controls.BooksControl.LoadData">
+            <summary>
+            Loads books, authors, and genres from the database safely.
             </summary>
         </member>
         <member name="M:BookOrg.Src.UI.DBInteraction.Controls.BooksControl.InitializeComponent">
@@ -103,10 +293,40 @@
             InitializeComponent
             </summary>
         </member>
+        <member name="T:BookOrg.Src.UI.DBInteraction.Controls.EntityControlBase`1">
+            <summary>
+			Abstract base class for UserControls that manage database entities.
+			Handles common tasks like data loading, adding, updating, and deleting items safely.
+		</summary>
+        </member>
+        <member name="M:BookOrg.Src.UI.DBInteraction.Controls.EntityControlBase`1.LoadData">
+            <summary>
+            Loads data from the database into the Items collection safely.
+            </summary>
+        </member>
+        <member name="M:BookOrg.Src.UI.DBInteraction.Controls.EntityControlBase`1.AddItem(`0)">
+            <summary>
+            Adds a new item to the database and the UI collection safely.
+            </summary>
+            <param name="item">The item to add.</param>
+        </member>
+        <member name="M:BookOrg.Src.UI.DBInteraction.Controls.EntityControlBase`1.UpdateItem(`0)">
+            <summary>
+            Updates an existing item in the database safely.
+            </summary>
+            <param name="item">The item to update.</param>
+        </member>
+        <member name="M:BookOrg.Src.UI.DBInteraction.Controls.EntityControlBase`1.DeleteItem(`0)">
+            <summary>
+            Deletes an item from the database and the UI collection safely.
+            </summary>
+            <param name="item">The item to delete.</param>
+        </member>
         <member name="T:BookOrg.Src.UI.DBInteraction.Controls.GenreControl">
             <summary>
-            Interaction logic for GenreControl.xaml
-            </summary>
+			UI Control for managing the collection of genres.
+			Allows listing, adding, and deleting genres.
+		</summary>
             <summary>
             GenreControl
             </summary>
@@ -117,6 +337,9 @@
             </summary>
         </member>
         <member name="T:BookOrg.Src.UI.DBInteraction.MainWindow">
+            <summary>
+			The main application window that hosts the various entity management controls.
+		</summary>
             <summary>
             MainWindow
             </summary>

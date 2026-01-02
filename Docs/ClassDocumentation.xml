@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ClassDocumentation>
-	
+
 	<ClassMembers name="Logger">
 		<summary>
 			Static class used for thread-safe logging.
@@ -15,4 +15,109 @@
 		</summary>
 	</ClassMembers>
 	
+	<ClassMembers name="IConnectionFactory">
+		<summary>
+			Interface for defining a factory class for a specific database connection creation.
+		</summary>
+	</ClassMembers>
+
+	<ClassMembers name="SqlServerConnectionFactory">
+		<summary>
+			Factory class for creating and initializing connections to the SQL Server database
+			using configuration settings.
+		</summary>
+	</ClassMembers>
+
+	<ClassMembers name="IDBEntity">
+		<summary>
+			Interface defining the contract for database entities, ensuring they possess a unique identifier.
+		</summary>
+	</ClassMembers>
+
+	<ClassMembers name="Book">
+		<summary>
+			Represents a book entity in the library, containing details such as title, price,
+			stock availability, and relationships to authors and genres.
+		</summary>
+	</ClassMembers>
+
+	<ClassMembers name="Author">
+		<summary>
+			Represents an author entity, storing the author's name and unique ID.
+		</summary>
+	</ClassMembers>
+
+	<ClassMembers name="Genre">
+		<summary>
+			Represents a genre entity, storing the genre category name and unique ID.
+		</summary>
+	</ClassMembers>
+
+	<ClassMembers name="DAOBase">
+		<summary>
+			Abstract base class for Data Access Objects.
+			Provides a common structure and helper methods for database operations on entities.
+		</summary>
+	</ClassMembers>
+
+	<ClassMembers name="BookDAO">
+		<summary>
+			Data Access Object for handling database operations related to Books.
+			Manages specific book-related operations and relation synchronization (Authors/Genres).
+		</summary>
+	</ClassMembers>
+
+	<ClassMembers name="AuthorDAO">
+		<summary>
+			Data Access Object for handling database operations related to Authors.
+		</summary>
+	</ClassMembers>
+
+	<ClassMembers name="GenreDAO">
+		<summary>
+			Data Access Object for handling database operations related to Genres.
+		</summary>
+	</ClassMembers>
+
+	<ClassMembers name="EntityControlBase">
+		<summary>
+			Abstract base class for UserControls that manage database entities.
+			Handles common tasks like data loading, adding, updating, and deleting items safely.
+		</summary>
+	</ClassMembers>
+
+	<ClassMembers name="BooksControl">
+		<summary>
+			UI Control for managing the collection of books.
+			Allows viewing, adding, editing, and deleting books, as well as managing their authors and genres.
+		</summary>
+	</ClassMembers>
+
+	<ClassMembers name="AuthorControl">
+		<summary>
+			UI Control for managing the collection of authors.
+			Allows listing, adding, and deleting authors.
+		</summary>
+	</ClassMembers>
+
+	<ClassMembers name="GenreControl">
+		<summary>
+			UI Control for managing the collection of genres.
+			Allows listing, adding, and deleting genres.
+		</summary>
+	</ClassMembers>
+
+	<ClassMembers name="ConnectionWindow">
+		<summary>
+			Startup window that handles the initial database connection process.
+			Provides feedback on connection status and options to reload or close.
+		</summary>
+	</ClassMembers>
+
+	<ClassMembers name="MainWindow">
+		<summary>
+			The main application window that hosts the various entity management controls.
+		</summary>
+	</ClassMembers>
+
 </ClassDocumentation>

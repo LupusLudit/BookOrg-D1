@@ -1,31 +1,87 @@
-﻿<UserControl x:Class="BookOrg.Src.UI.DBInteraction.Controls.BooksControl"
+﻿<local:EntityControlBase x:Class="BookOrg.Src.UI.DBInteraction.Controls.BooksControl"
+             x:TypeArguments="entities:Book"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:BookOrg.Src.UI.DBInteraction.Controls"
+             xmlns:entities="clr-namespace:BookOrg.Src.Logic.Core.DBEntities"
              mc:Ignorable="d" 
-             d:DesignHeight="700" d:DesignWidth="1400">
-    <Grid Background="White">
+             d:DesignHeight="500" d:DesignWidth="1000">
+    <Grid Background="#ff5a1b">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Text="Books" FontSize="25" FontWeight="Bold" Margin="10" Grid.Row="0"/>
+        <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="10">
+            <TextBlock Text="Books" FontSize="25" FontWeight="Bold" VerticalAlignment="Center"/>
+            <Button Click="AddNewBookClick" Style="{StaticResource AddButtonStyle}"/>
+        </StackPanel>
 
-        <DataGrid ItemsSource="{Binding Books}" AutoGenerateColumns="False" CanUserAddRows="False"
-                  IsReadOnly="True" HeadersVisibility="Column" GridLinesVisibility="Horizontal"
-                  Background="White" RowHeaderWidth="0" Grid.Row="1" FontSize="20">
+        <DataGrid ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedBook}" 
+                  AutoGenerateColumns="False" CanUserAddRows="False"
+                  HeadersVisibility="Column" GridLinesVisibility="Horizontal" Background="White" 
+                  RowHeaderWidth="0" Grid.Row="1" FontSize="16" CellEditEnding="DataGridCellEditEnding">
 
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Book Title" Binding="{Binding Title}" Width="*"/>
-                <DataGridTextColumn Header="Price" Binding="{Binding Price, StringFormat=C}" Width="100"/>
-                <DataGridTextColumn Header="Author" Binding="{Binding Author}" Width="200"/>
-                <DataGridTextColumn Header="Genre" Binding="{Binding Genre}" Width="150"/>
-                <DataGridTextColumn Header="Year" Binding="{Binding PublicationYear}" Width="80"/>
-                <DataGridTextColumn Header="Note" Binding="{Binding Note}" Width="350"/>
-                <DataGridTextColumn Header="Is Available" Binding="{Binding IsAvailable}" Width="120"/>
+                <DataGridTextColumn Header="Title" Binding="{Binding Title, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
+                <DataGridTextColumn Header="Price" Binding="{Binding Price, StringFormat=C, UpdateSourceTrigger=PropertyChanged}" Width="80"/>
+                <DataGridTextColumn Header="In stock" Binding="{Binding BooksInStock, UpdateSourceTrigger=PropertyChanged}" Width="80"/>
+                <DataGridCheckBoxColumn Header="Available" Binding="{Binding IsAvailable, UpdateSourceTrigger=PropertyChanged}" Width="80"/>
+
+                <DataGridTemplateColumn Header="Authors" Width="250">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Margin="5">
+                                <ItemsControl ItemsSource="{Binding Authors}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal" Margin="0,2">
+                                                <TextBlock Text="{Binding AuthorName}"/>
+                                                <Button Click="RemoveAuthorClick" Style="{StaticResource RemoveButtonStyle}"
+                                                        Tag="{Binding DataContext, RelativeSource={RelativeSource AncestorType=DataGridRow}}"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                                <ComboBox Margin="0,5,0,0" ItemsSource="{Binding DataContext.AllAuthors, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                          DisplayMemberPath="AuthorName" Text="Add Author" IsEditable="True" IsReadOnly="True" SelectionChanged="AddAuthorSelectionChanged"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Header="Genres" Width="250">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Margin="5">
+                                <ItemsControl ItemsSource="{Binding Genres}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal" Margin="0,2">
+                                                <TextBlock Text="{Binding GenreName}"/>
+                                                <Button Click="RemoveGenreClick" Style="{StaticResource RemoveButtonStyle}"
+                                                        Tag="{Binding DataContext, RelativeSource={RelativeSource AncestorType=DataGridRow}}"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                                <ComboBox Margin="0,5,0,0" ItemsSource="{Binding DataContext.AllGenres, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                          DisplayMemberPath="GenreName" Text="Add Genre" IsEditable="True" IsReadOnly="True" SelectionChanged="AddGenreSelectionChanged"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Width="90">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Click="DeleteBookClick" Style="{StaticResource RemoveButtonStyle}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>
-</UserControl>
+</local:EntityControlBase>

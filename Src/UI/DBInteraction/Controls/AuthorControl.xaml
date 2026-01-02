@@ -1,13 +1,14 @@
-﻿<UserControl x:Class="BookOrg.Src.UI.DBInteraction.Controls.AuthorControl"
+﻿<local:EntityControlBase x:Class="BookOrg.Src.UI.DBInteraction.Controls.AuthorControl"
+             x:TypeArguments="entities:Author"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:BookOrg.Src.UI.DBInteraction.Controls"
-             mc:Ignorable="d"
+             xmlns:entities="clr-namespace:BookOrg.Src.Logic.Core.DBEntities"
+             mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-
-    <Grid Background="White">
+    <Grid Background="LightGreen">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -15,24 +16,24 @@
 
         <StackPanel Orientation="Horizontal" Margin="10" Grid.Row="0" VerticalAlignment="Center">
             <TextBlock Text="Authors" FontSize="25" FontWeight="Bold" VerticalAlignment="Center"/>
-            <Button Content="+" Margin="20,0,0,0" Padding="10,2" Click="AddNewAuthorClick"/>
+            <Button Click="AddNewAuthorClick" Style="{StaticResource AddButtonStyle}"/>
         </StackPanel>
 
-        <DataGrid ItemsSource="{Binding Authors}" AutoGenerateColumns="False" CanUserAddRows="False"
+        <DataGrid ItemsSource="{Binding Items}" AutoGenerateColumns="False" CanUserAddRows="False"
                   HeadersVisibility="Column" GridLinesVisibility="Horizontal" CellEditEnding="DataGridCellEditEnding"
                   Background="White" RowHeaderWidth="0" Grid.Row="1" FontSize="20">
 
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Author Name" Binding="{Binding AuthorName, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
 
-                <DataGridTemplateColumn Width="Auto" MaxWidth="50">
+                <DataGridTemplateColumn Width="90">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Content="X" Padding="5,2" Click="DeleteAuthorClick"/>
+                            <Button Click="DeleteAuthorClick" Style="{StaticResource RemoveButtonStyle}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>
-</UserControl>
+</local:EntityControlBase>

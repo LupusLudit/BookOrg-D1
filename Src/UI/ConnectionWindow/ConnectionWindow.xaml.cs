@@ -1,14 +1,10 @@
-﻿using System;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using BookOrg.Src.Logic.Connection;
 using BookOrg.Src.UI.DBInteraction;
 
 namespace BookOrg.Src.UI.ConnectionWindow
 {
-    /// <summary>
-    /// Interaction logic for ConnectionWindow.xaml
-    /// </summary>
+    /// <include file='../../../Docs/ClassDocumentation.xml' path='ClassDocumentation/ClassMembers[@name="ConnectionWindow"]/*'/>
     public partial class ConnectionWindow : Window
     {
         public readonly string ConfigPath = "App.config";
