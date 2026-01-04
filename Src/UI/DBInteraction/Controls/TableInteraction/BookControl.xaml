@@ -1,13 +1,13 @@
-﻿<local:EntityControlBase x:Class="BookOrg.Src.UI.DBInteraction.Controls.BooksControl"
-             x:TypeArguments="entities:Book"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:BookOrg.Src.UI.DBInteraction.Controls"
-             xmlns:entities="clr-namespace:BookOrg.Src.Logic.Core.DBEntities"
-             mc:Ignorable="d" 
-             d:DesignHeight="500" d:DesignWidth="1000">
+﻿<local1:EntityControlBase x:Class="BookOrg.Src.UI.DBInteraction.Controls.TableInteraction.BookControl"
+                         x:TypeArguments="entities:Book"
+                         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                         xmlns:local1="clr-namespace:BookOrg.Src.UI.DBInteraction.Controls.TableInteraction"
+                         xmlns:entities="clr-namespace:BookOrg.Src.Logic.Core.DBEntities"
+                         mc:Ignorable="d" 
+                         d:DesignHeight="500" d:DesignWidth="1000">
     <Grid Background="#ff5a1b">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -84,4 +84,4 @@
             </DataGrid.Columns>
         </DataGrid>
     </Grid>
-</local:EntityControlBase>
+</local1:EntityControlBase>

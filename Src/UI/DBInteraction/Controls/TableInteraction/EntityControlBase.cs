@@ -6,9 +6,9 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Controls;
 
-namespace BookOrg.Src.UI.DBInteraction.Controls
+namespace BookOrg.Src.UI.DBInteraction.Controls.TableInteraction
 {
-    /// <include file='../../../../Docs/ClassDocumentation.xml' path='ClassDocumentation/ClassMembers[@name="EntityControlBase"]/*'/>
+    /// <include file='../../../../../Docs/ClassDocumentation.xml' path='ClassDocumentation/ClassMembers[@name="EntityControlBase"]/*'/>
     public class EntityControlBase<T> : UserControl, INotifyPropertyChanged where T : class, IDBEntity
     {
         protected DAOBase<T> Dao { get; set; }
@@ -19,7 +19,7 @@ namespace BookOrg.Src.UI.DBInteraction.Controls
 
         public EntityControlBase()
         {
-            this.DataContext = this;
+            DataContext = this;
         }
 
         /// <summary>

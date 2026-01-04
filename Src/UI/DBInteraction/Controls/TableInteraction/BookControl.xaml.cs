@@ -6,10 +6,10 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace BookOrg.Src.UI.DBInteraction.Controls
+namespace BookOrg.Src.UI.DBInteraction.Controls.TableInteraction
 {
-    /// <include file='../../../../Docs/ClassDocumentation.xml' path='ClassDocumentation/ClassMembers[@name="BooksControl"]/*'/>
-    public partial class BooksControl : EntityControlBase<Book>
+    /// <include file='../../../../../Docs/ClassDocumentation.xml' path='ClassDocumentation/ClassMembers[@name="BookControl"]/*'/>
+    public partial class BookControl : EntityControlBase<Book>
     {
         private AuthorDAO authorDAO;
         private GenreDAO genreDAO;
@@ -24,7 +24,7 @@ namespace BookOrg.Src.UI.DBInteraction.Controls
             set { selectedBook = value; OnPropertyChanged(); }
         }
 
-        public BooksControl(SqlConnection connection)
+        public BookControl(SqlConnection connection)
         {
             InitializeComponent();
             Dao = new BookDAO(connection);
@@ -80,7 +80,13 @@ namespace BookOrg.Src.UI.DBInteraction.Controls
         {
             if (sender is Button button && button.DataContext is Book book)
             {
-                DeleteItem(book);
+                MessageBoxResult result = MessageBox.Show($"Do your really want to delete book '{book.Title}'?" +
+                    $" THIS WILL AFFECT DIFERENT DATABASE ENTITES WHICH RELAY ON THIS BOOK. This action cannot be undone.", "Confirm", MessageBoxButton.YesNo);
+
+                if (result == MessageBoxResult.Yes)
+                {
+                    DeleteItem(book);
+                }
             }
         }
 

@@ -73,30 +73,23 @@
 			Data Access Object for handling database operations related to Authors.
 		</summary>
         </member>
-        <member name="M:BookOrg.Src.Logic.Core.DAO.AuthorDAO.GetByID(System.Int32)">
-            <summary>
-            Retrieves an Author entity by its unique ID.
-            </summary>
-            <param name="id">The unique identifier of the author.</param>
-            <returns>The found Author object, or null if not found.</returns>
-        </member>
         <member name="M:BookOrg.Src.Logic.Core.DAO.AuthorDAO.Insert(BookOrg.Src.Logic.Core.DBEntities.Author)">
             <summary>
             Inserts a new Author entity into the database.
             </summary>
-            <param name="author">The Author entity to insert.</param>
+            <param name="author">The Author entity to be inserted.</param>
         </member>
         <member name="M:BookOrg.Src.Logic.Core.DAO.AuthorDAO.Update(BookOrg.Src.Logic.Core.DBEntities.Author)">
             <summary>
             Updates an existing Author entity in the database.
             </summary>
-            <param name="author">The Author entity to update.</param>
+            <param name="author">The Author entity to be updated.</param>
         </member>
         <member name="M:BookOrg.Src.Logic.Core.DAO.AuthorDAO.Delete(BookOrg.Src.Logic.Core.DBEntities.Author)">
             <summary>
             Deletes an Author entity from the database.
             </summary>
-            <param name="author">The Author entity to delete.</param>
+            <param name="author">The Author entity to be deleted.</param>
         </member>
         <member name="M:BookOrg.Src.Logic.Core.DAO.AuthorDAO.GetAll">
             <summary>
@@ -110,42 +103,48 @@
 			Manages specific book-related operations and relation synchronization (Authors/Genres).
 		</summary>
         </member>
-        <member name="M:BookOrg.Src.Logic.Core.DAO.BookDAO.Insert(BookOrg.Src.Logic.Core.DBEntities.Book)">
+        <member name="M:BookOrg.Src.Logic.Core.DAO.BookDAO.ClearRelations(System.Int32,Microsoft.Data.SqlClient.SqlTransaction)">
             <summary>
-            Inserts a new Book entity into the database, including its relations (Authors and Genres).
+            Clears existing relations (authors and genres) for a book during an update.
             </summary>
-            <param name="book">The Book entity to insert.</param>
-        </member>
-        <member name="M:BookOrg.Src.Logic.Core.DAO.BookDAO.Update(BookOrg.Src.Logic.Core.DBEntities.Book)">
-            <summary>
-            Updates an existing Book entity in the database, including its relations.
-            </summary>
-            <param name="book">The Book entity to update.</param>
+            <param name="bookId">The book ID.</param>
+            <param name="transaction">The transaction to which the commands will be added.</param>
         </member>
         <member name="M:BookOrg.Src.Logic.Core.DAO.BookDAO.SyncRelations(BookOrg.Src.Logic.Core.DBEntities.Book,Microsoft.Data.SqlClient.SqlTransaction)">
             <summary>
             Synchronizes the many-to-many relations (Authors and Genres) for a book.
             </summary>
-            <param name="book">The Book entity containing the relations.</param>
-            <param name="transaction">The active SQL transaction.</param>
+            <param name="book">The book to be synchronized.</param>
+            <param name="transaction">The transaction to which the commands will be added.</param>
         </member>
-        <member name="M:BookOrg.Src.Logic.Core.DAO.BookDAO.GetAll">
+        <member name="T:BookOrg.Src.Logic.Core.DAO.CustomerDAO">
             <summary>
-            Retrieves all Book entities from the database, including their relations.
-            </summary>
-            <returns>A list of Book objects.</returns>
+			Data Access Object for handling database operations related to Customers.
+		</summary>
         </member>
-        <member name="M:BookOrg.Src.Logic.Core.DAO.BookDAO.LoadRelations(BookOrg.Src.Logic.Core.DBEntities.Book)">
+        <member name="M:BookOrg.Src.Logic.Core.DAO.CustomerDAO.Insert(BookOrg.Src.Logic.Core.DBEntities.Customer)">
             <summary>
-            Loads the authors and genres for a specific book.
+            Inserts a new Customer entity into the database.
             </summary>
-            <param name="book">The Book entity to populate.</param>
+            <param name="customer">The Customer entity to insert.</param>
         </member>
-        <member name="M:BookOrg.Src.Logic.Core.DAO.BookDAO.Delete(BookOrg.Src.Logic.Core.DBEntities.Book)">
+        <member name="M:BookOrg.Src.Logic.Core.DAO.CustomerDAO.Update(BookOrg.Src.Logic.Core.DBEntities.Customer)">
             <summary>
-            Deletes a Book entity from the database.
+            Updates an existing Customer entity in the database.
             </summary>
-            <param name="book">The Book entity to delete.</param>
+            <param name="customer">The Customer entity to update.</param>
+        </member>
+        <member name="M:BookOrg.Src.Logic.Core.DAO.CustomerDAO.Delete(BookOrg.Src.Logic.Core.DBEntities.Customer)">
+            <summary>
+            Deletes a Customer entity from the database.
+            </summary>
+            <param name="customer">The Customer entity to delete.</param>
+        </member>
+        <member name="M:BookOrg.Src.Logic.Core.DAO.CustomerDAO.GetAll">
+            <summary>
+            Retrieves all Customer entities from the database.
+            </summary>
+            <returns>A list of all Customer objects.</returns>
         </member>
         <member name="T:BookOrg.Src.Logic.Core.DAO.DAOBase`1">
             <summary>
@@ -165,36 +164,94 @@
 			Data Access Object for handling database operations related to Genres.
 		</summary>
         </member>
-        <member name="M:BookOrg.Src.Logic.Core.DAO.GenreDAO.GetByID(System.Int32)">
-            <summary>
-            Retrieves a Genre entity by its unique ID.
-            </summary>
-            <param name="id">The unique identifier of the genre.</param>
-            <returns>The found Genre object, or null if not found.</returns>
-        </member>
         <member name="M:BookOrg.Src.Logic.Core.DAO.GenreDAO.Insert(BookOrg.Src.Logic.Core.DBEntities.Genre)">
             <summary>
             Inserts a new Genre entity into the database.
             </summary>
-            <param name="genre">The Genre entity to insert.</param>
+            <param name="genre">The Genre entity to be inserted.</param>
         </member>
         <member name="M:BookOrg.Src.Logic.Core.DAO.GenreDAO.Update(BookOrg.Src.Logic.Core.DBEntities.Genre)">
             <summary>
             Updates an existing Genre entity in the database.
             </summary>
-            <param name="genre">The Genre entity to update.</param>
+            <param name="genre">The Genre entity to be updated.</param>
         </member>
         <member name="M:BookOrg.Src.Logic.Core.DAO.GenreDAO.Delete(BookOrg.Src.Logic.Core.DBEntities.Genre)">
             <summary>
             Deletes a Genre entity from the database.
             </summary>
-            <param name="genre">The Genre entity to delete.</param>
+            <param name="genre">The Genre entity to be deleted.</param>
         </member>
         <member name="M:BookOrg.Src.Logic.Core.DAO.GenreDAO.GetAll">
             <summary>
             Retrieves all Genre entities from the database.
             </summary>
             <returns>A list of all Genre objects.</returns>
+        </member>
+        <member name="T:BookOrg.Src.Logic.Core.DAO.LoanDAO">
+            <summary>
+			Data Access Object for handling database operations related to Loans.
+			Manages complex loan logic including stock adjustments and tracking returned items.
+		</summary>
+        </member>
+        <member name="M:BookOrg.Src.Logic.Core.DAO.LoanDAO.Insert(BookOrg.Src.Logic.Core.DBEntities.Loan)">
+            <summary>
+            Inserts a new Loan entity into the database.
+            </summary>
+            <param name="loan">The Loan entity to be inserted.</param>
+        </member>
+        <member name="M:BookOrg.Src.Logic.Core.DAO.LoanDAO.Update(BookOrg.Src.Logic.Core.DBEntities.Loan)">
+            <summary>
+            Updates an existing Loan entity in the database.
+            </summary>
+            <param name="loan">The Loan entity to be updated.</param>
+            <exception cref="T:System.Exception">Loan not found</exception>
+            <remarks>
+            Before updating, the method checks if the book associated with the loan has changed.
+            If it has, it adjusts the stock of both the old and new books accordingly.
+            The method also checks if the loan status has changed to "returned".
+            If yes, it sets the returned date to the current date and increases the book stock by one.
+            </remarks>
+        </member>
+        <member name="M:BookOrg.Src.Logic.Core.DAO.LoanDAO.Delete(BookOrg.Src.Logic.Core.DBEntities.Loan)">
+            <summary>
+            Deletes a Loan entity from the database.
+            </summary>
+            <param name="loan">The Loan entity to be deleted.</param>
+        </member>
+        <member name="M:BookOrg.Src.Logic.Core.DAO.LoanDAO.GetAll">
+            <summary>
+            Retrieves all (ongoing) loans using a predefined view.
+            </summary>
+            <returns>
+            List of Loan objects representing ongoing loans.
+            </returns>
+        </member>
+        <member name="M:BookOrg.Src.Logic.Core.DAO.LoanDAO.GetReturnedLoans">
+            <summary>
+            Retrieves the returned loans using a predefined view.
+            </summary>
+            <returns>
+            List of Loan objects representing returned loans.
+            </returns>
+        </member>
+        <member name="M:BookOrg.Src.Logic.Core.DAO.LoanDAO.ModifyBookStock(System.Int32,System.Int32,Microsoft.Data.SqlClient.SqlTransaction)">
+            <summary>
+            Centralized method to update book stock and availability.
+            Validates stock constraints before updating.
+            </summary>
+            <param name="bookId">The ID of the book to update.</param>
+            <param name="quantityChange">The amount to change stock by (negative to decrease, positive to increase).</param>
+            <param name="transaction">The active transaction.</param>
+        </member>
+        <member name="M:BookOrg.Src.Logic.Core.DAO.LoanDAO.GetLoansFromView(System.String)">
+            <summary>
+            Gets the specific loan information from a predefined view.
+            </summary>
+            <param name="query">The (view) query to be executed.</param>
+            <returns>
+            List of Loan objects retrieved from the view.
+            </returns>
         </member>
         <member name="T:BookOrg.Src.Logic.Core.DBEntities.Author">
             <summary>
@@ -207,6 +264,11 @@
 			stock availability, and relationships to authors and genres.
 		</summary>
         </member>
+        <member name="T:BookOrg.Src.Logic.Core.DBEntities.Customer">
+            <summary>
+			Represents a customer entity, storing personal details and contact email.
+		</summary>
+        </member>
         <member name="T:BookOrg.Src.Logic.Core.DBEntities.Genre">
             <summary>
 			Represents a genre entity, storing the genre category name and unique ID.
@@ -215,6 +277,26 @@
         <member name="T:BookOrg.Src.Logic.Core.DBEntities.IDBEntity">
             <summary>
 			Interface defining the contract for database entities, ensuring they possess a unique identifier.
+		</summary>
+        </member>
+        <member name="P:BookOrg.Src.Logic.Core.DBEntities.IDBEntity.ID">
+            <summary>
+            Gets or sets the entity identifier.
+            </summary>
+            <value>
+            The entity identifier.
+            </value>
+            <remarks>
+            The ID property should be a non-negative integer that
+            uniquely identifies the entity within the database.
+            If it is set to zero, it indicates that the entity has not yet
+            been added to the database and that it will be assigned a valid ID upon insertion.
+            </remarks>>
+        </member>
+        <member name="T:BookOrg.Src.Logic.Core.DBEntities.Loan">
+            <summary>
+			Represents a loan transaction entity, tracking the book, customer, loan status, dates, and price.
+			Contains logic for updating status based on dates.
 		</summary>
         </member>
         <member name="T:BookOrg.Src.Safety.SafeExecutor">
@@ -260,7 +342,17 @@
             InitializeComponent
             </summary>
         </member>
-        <member name="T:BookOrg.Src.UI.DBInteraction.Controls.AuthorControl">
+        <member name="T:BookOrg.Src.UI.DBInteraction.Controls.Menus.MainMenuControl">
+            <summary>
+            MainMenuControl
+            </summary>
+        </member>
+        <member name="M:BookOrg.Src.UI.DBInteraction.Controls.Menus.MainMenuControl.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:BookOrg.Src.UI.DBInteraction.Controls.TableInteraction.AuthorControl">
             <summary>
 			UI Control for managing the collection of authors.
 			Allows listing, adding, and deleting authors.
@@ -269,60 +361,74 @@
             AuthorControl
             </summary>
         </member>
-        <member name="M:BookOrg.Src.UI.DBInteraction.Controls.AuthorControl.InitializeComponent">
+        <member name="M:BookOrg.Src.UI.DBInteraction.Controls.TableInteraction.AuthorControl.InitializeComponent">
             <summary>
             InitializeComponent
             </summary>
         </member>
-        <member name="T:BookOrg.Src.UI.DBInteraction.Controls.BooksControl">
+        <member name="T:BookOrg.Src.UI.DBInteraction.Controls.TableInteraction.BookControl">
             <summary>
 			UI Control for managing the collection of books.
 			Allows viewing, adding, editing, and deleting books, as well as managing their authors and genres.
 		</summary>
             <summary>
-            BooksControl
+            BookControl
             </summary>
         </member>
-        <member name="M:BookOrg.Src.UI.DBInteraction.Controls.BooksControl.LoadData">
+        <member name="M:BookOrg.Src.UI.DBInteraction.Controls.TableInteraction.BookControl.LoadData">
             <summary>
             Loads books, authors, and genres from the database safely.
             </summary>
         </member>
-        <member name="M:BookOrg.Src.UI.DBInteraction.Controls.BooksControl.InitializeComponent">
+        <member name="M:BookOrg.Src.UI.DBInteraction.Controls.TableInteraction.BookControl.InitializeComponent">
             <summary>
             InitializeComponent
             </summary>
         </member>
-        <member name="T:BookOrg.Src.UI.DBInteraction.Controls.EntityControlBase`1">
+        <member name="T:BookOrg.Src.UI.DBInteraction.Controls.TableInteraction.CustomerControl">
+            <summary>
+			UI Control for managing the collection of customers.
+			Allows listing, adding, editing, and deleting customers.
+		</summary>
+            <summary>
+            CustomerControl
+            </summary>
+        </member>
+        <member name="M:BookOrg.Src.UI.DBInteraction.Controls.TableInteraction.CustomerControl.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:BookOrg.Src.UI.DBInteraction.Controls.TableInteraction.EntityControlBase`1">
             <summary>
 			Abstract base class for UserControls that manage database entities.
 			Handles common tasks like data loading, adding, updating, and deleting items safely.
 		</summary>
         </member>
-        <member name="M:BookOrg.Src.UI.DBInteraction.Controls.EntityControlBase`1.LoadData">
+        <member name="M:BookOrg.Src.UI.DBInteraction.Controls.TableInteraction.EntityControlBase`1.LoadData">
             <summary>
             Loads data from the database into the Items collection safely.
             </summary>
         </member>
-        <member name="M:BookOrg.Src.UI.DBInteraction.Controls.EntityControlBase`1.AddItem(`0)">
+        <member name="M:BookOrg.Src.UI.DBInteraction.Controls.TableInteraction.EntityControlBase`1.AddItem(`0)">
             <summary>
             Adds a new item to the database and the UI collection safely.
             </summary>
             <param name="item">The item to add.</param>
         </member>
-        <member name="M:BookOrg.Src.UI.DBInteraction.Controls.EntityControlBase`1.UpdateItem(`0)">
+        <member name="M:BookOrg.Src.UI.DBInteraction.Controls.TableInteraction.EntityControlBase`1.UpdateItem(`0)">
             <summary>
             Updates an existing item in the database safely.
             </summary>
             <param name="item">The item to update.</param>
         </member>
-        <member name="M:BookOrg.Src.UI.DBInteraction.Controls.EntityControlBase`1.DeleteItem(`0)">
+        <member name="M:BookOrg.Src.UI.DBInteraction.Controls.TableInteraction.EntityControlBase`1.DeleteItem(`0)">
             <summary>
             Deletes an item from the database and the UI collection safely.
             </summary>
             <param name="item">The item to delete.</param>
         </member>
-        <member name="T:BookOrg.Src.UI.DBInteraction.Controls.GenreControl">
+        <member name="T:BookOrg.Src.UI.DBInteraction.Controls.TableInteraction.GenreControl">
             <summary>
 			UI Control for managing the collection of genres.
 			Allows listing, adding, and deleting genres.
@@ -331,7 +437,34 @@
             GenreControl
             </summary>
         </member>
-        <member name="M:BookOrg.Src.UI.DBInteraction.Controls.GenreControl.InitializeComponent">
+        <member name="M:BookOrg.Src.UI.DBInteraction.Controls.TableInteraction.GenreControl.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:BookOrg.Src.UI.DBInteraction.Controls.TableInteraction.LoanControl">
+            <summary>
+			UI Control for managing loan transactions.
+			Allows creating new loans, viewing ongoing and returned loans, and updating loan statuses.
+		</summary>
+            <summary>
+            LoanControl
+            </summary>
+        </member>
+        <member name="M:BookOrg.Src.UI.DBInteraction.Controls.TableInteraction.LoanControl.LoadData">
+            <summary>
+            Loads ongoing loans, returned loans, customer list, and available book list from the database safely.
+            </summary>
+        </member>
+        <member name="M:BookOrg.Src.UI.DBInteraction.Controls.TableInteraction.LoanControl.AddNewLoanClick(System.Object,System.Windows.RoutedEventArgs)">
+            <summary>
+            Initiates the creation of a new loan. 
+            Automatically selects the first available book and customer to populate the initial loan record.
+            </summary>
+            <param name="sender">The sender.</param>
+            <param name="e">The <see cref="T:System.Windows.RoutedEventArgs"/> instance containing the event data.</param>
+        </member>
+        <member name="M:BookOrg.Src.UI.DBInteraction.Controls.TableInteraction.LoanControl.InitializeComponent">
             <summary>
             InitializeComponent
             </summary>
@@ -344,9 +477,45 @@
             MainWindow
             </summary>
         </member>
+        <member name="M:BookOrg.Src.UI.DBInteraction.MainWindow.Navigate(System.String)">
+            <summary>
+            Navigates to the specified destination control based on the menu selection.
+            </summary>
+            <param name="destination">The tag from the menu button.</param>
+        </member>
         <member name="M:BookOrg.Src.UI.DBInteraction.MainWindow.InitializeComponent">
             <summary>
             InitializeComponent
+            </summary>
+        </member>
+        <member name="T:XamlGeneratedNamespace.GeneratedInternalTypeHelper">
+            <summary>
+            GeneratedInternalTypeHelper
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.CreateInstance(System.Type,System.Globalization.CultureInfo)">
+            <summary>
+            CreateInstance
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.GetPropertyValue(System.Reflection.PropertyInfo,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            GetPropertyValue
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.SetPropertyValue(System.Reflection.PropertyInfo,System.Object,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            SetPropertyValue
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.CreateDelegate(System.Type,System.Object,System.String)">
+            <summary>
+            CreateDelegate
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.AddEventHandler(System.Reflection.EventInfo,System.Object,System.Delegate)">
+            <summary>
+            AddEventHandler
             </summary>
         </member>
     </members>

@@ -12,7 +12,6 @@ namespace BookOrg.Src.Logic.Core.DAO
         {
             this.connection = connection;
         }
-        public abstract T? GetByID(int id);
         public abstract void Insert(T entity);
         public abstract void Update(T entity);
         public abstract void Delete(T entity);

@@ -14,7 +14,7 @@
 			with standardized error handling.
 		</summary>
 	</ClassMembers>
-	
+
 	<ClassMembers name="IConnectionFactory">
 		<summary>
 			Interface for defining a factory class for a specific database connection creation.
@@ -53,6 +53,19 @@
 		</summary>
 	</ClassMembers>
 
+	<ClassMembers name="Customer">
+		<summary>
+			Represents a customer entity, storing personal details and contact email.
+		</summary>
+	</ClassMembers>
+
+	<ClassMembers name="Loan">
+		<summary>
+			Represents a loan transaction entity, tracking the book, customer, loan status, dates, and price.
+			Contains logic for updating status based on dates.
+		</summary>
+	</ClassMembers>
+
 	<ClassMembers name="DAOBase">
 		<summary>
 			Abstract base class for Data Access Objects.
@@ -79,6 +92,19 @@
 		</summary>
 	</ClassMembers>
 
+	<ClassMembers name="CustomerDAO">
+		<summary>
+			Data Access Object for handling database operations related to Customers.
+		</summary>
+	</ClassMembers>
+
+	<ClassMembers name="LoanDAO">
+		<summary>
+			Data Access Object for handling database operations related to Loans.
+			Manages complex loan logic including stock adjustments and tracking returned items.
+		</summary>
+	</ClassMembers>
+
 	<ClassMembers name="EntityControlBase">
 		<summary>
 			Abstract base class for UserControls that manage database entities.
@@ -86,7 +112,7 @@
 		</summary>
 	</ClassMembers>
 
-	<ClassMembers name="BooksControl">
+	<ClassMembers name="BookControl">
 		<summary>
 			UI Control for managing the collection of books.
 			Allows viewing, adding, editing, and deleting books, as well as managing their authors and genres.
@@ -104,6 +130,27 @@
 		<summary>
 			UI Control for managing the collection of genres.
 			Allows listing, adding, and deleting genres.
+		</summary>
+	</ClassMembers>
+
+	<ClassMembers name="CustomerControl">
+		<summary>
+			UI Control for managing the collection of customers.
+			Allows listing, adding, editing, and deleting customers.
+		</summary>
+	</ClassMembers>
+
+	<ClassMembers name="LoanControl">
+		<summary>
+			UI Control for managing loan transactions.
+			Allows creating new loans, viewing ongoing and returned loans, and updating loan statuses.
+		</summary>
+	</ClassMembers>
+
+	<ClassMembers name="MainMenuControl">
+		<summary>
+			UI Control for the main menu navigation.
+			Provides buttons to navigate to different entity management views.
 		</summary>
 	</ClassMembers>
 

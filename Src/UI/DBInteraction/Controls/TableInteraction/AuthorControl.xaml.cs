@@ -4,9 +4,9 @@ using Microsoft.Data.SqlClient;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace BookOrg.Src.UI.DBInteraction.Controls
+namespace BookOrg.Src.UI.DBInteraction.Controls.TableInteraction
 {
-    /// <include file='../../../../Docs/ClassDocumentation.xml' path='ClassDocumentation/ClassMembers[@name="AuthorControl"]/*'/>
+    /// <include file='../../../../../Docs/ClassDocumentation.xml' path='ClassDocumentation/ClassMembers[@name="AuthorControl"]/*'/>
     public partial class AuthorControl : EntityControlBase<Author>
     {
         public AuthorControl(SqlConnection connection)
@@ -31,7 +31,10 @@ namespace BookOrg.Src.UI.DBInteraction.Controls
         {
             if (sender is Button button && button.DataContext is Author author)
             {
-                if (MessageBox.Show($"Delete author '{author.AuthorName}'?", "Confirm", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                MessageBoxResult result = MessageBox.Show($"Do your really want to delete author '{author.AuthorName}'?" +
+                    $" THIS WILL AFFECT DIFERENT DATABASE ENTITES WHICH RELAY ON THIS AUTHOR. This action cannot be undone.", "Confirm", MessageBoxButton.YesNo);
+
+                if (result == MessageBoxResult.Yes)
                 {
                     DeleteItem(author);
                 }

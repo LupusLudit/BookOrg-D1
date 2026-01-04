@@ -4,9 +4,9 @@ using Microsoft.Data.SqlClient;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace BookOrg.Src.UI.DBInteraction.Controls
+namespace BookOrg.Src.UI.DBInteraction.Controls.TableInteraction
 {
-    /// <include file='../../../../Docs/ClassDocumentation.xml' path='ClassDocumentation/ClassMembers[@name="GenreControl"]/*'/>
+    /// <include file='../../../../../Docs/ClassDocumentation.xml' path='ClassDocumentation/ClassMembers[@name="GenreControl"]/*'/>
     public partial class GenreControl : EntityControlBase<Genre>
     {
         public GenreControl(SqlConnection connection)
@@ -30,7 +30,10 @@ namespace BookOrg.Src.UI.DBInteraction.Controls
         {
             if (sender is Button button && button.DataContext is Genre genre)
             {
-                if (MessageBox.Show($"Delete genre '{genre.GenreName}'?", "Confirm", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                MessageBoxResult result = MessageBox.Show($"Do your really want to delete genre '{genre.GenreName}'?" +
+                    $" THIS WILL AFFECT DIFERENT DATABASE ENTITES WHICH RELAY ON THIS GENRE. This action cannot be undone.", "Confirm", MessageBoxButton.YesNo);
+
+                if (result == MessageBoxResult.Yes)
                 {
                     DeleteItem(genre);
                 }

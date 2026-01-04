@@ -5,10 +5,24 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BookOrg.Src.UI.DBInteraction"
         mc:Ignorable="d"
-        Title="BookOrg"
+        Title="BookOrg - Library Manager"
         WindowState="Maximized"
         ResizeMode="CanResize">
+
     <Grid>
-        <ContentControl Content="{Binding CurrentControl}" />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0" Background="#f0f0f0" BorderBrush="#cccccc" BorderThickness="0,0,0,1" 
+                Padding="10" Visibility="{Binding BackButtonVisibility}">
+            <StackPanel Orientation="Horizontal">
+                <Button Content="Back to Menu" Click="BackToMenuClick" 
+                        Padding="15,5" FontSize="14" FontWeight="Bold"/>
+            </StackPanel>
+        </Border>
+
+        <ContentControl Grid.Row="1" Content="{Binding CurrentControl}" />
     </Grid>
 </Window>

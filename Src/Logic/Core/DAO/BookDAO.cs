@@ -8,10 +8,6 @@ namespace BookOrg.Src.Logic.Core.DAO
     {
         public BookDAO(SqlConnection connection) : base(connection) { }
 
-        /// <summary>
-        /// Inserts a new Book entity into the database, including its relations (Authors and Genres).
-        /// </summary>
-        /// <param name="book">The Book entity to insert.</param>
         public override void Insert(Book book)
         {
             using (SqlTransaction transaction = connection.BeginTransaction())
@@ -20,12 +16,12 @@ namespace BookOrg.Src.Logic.Core.DAO
                 {
                     string insertQuery = "insert into book (title, is_available, price, books_in_stock) values (@title, @isAvailable, @price, @stock); select scope_identity();";
 
-                    SqlCommand command = new SqlCommand(insertQuery, connection, transaction);
-                    command.Parameters.AddWithValue("@title", book.Title);
-                    command.Parameters.AddWithValue("@isAvailable", book.IsAvailable);
-                    command.Parameters.AddWithValue("@price", book.Price);
-                    command.Parameters.AddWithValue("@stock", book.BooksInStock);
-                    book.ID = Convert.ToInt32(command.ExecuteScalar());
+                    SqlCommand insertCommand = new SqlCommand(insertQuery, connection, transaction);
+                    insertCommand.Parameters.AddWithValue("@title", book.Title);
+                    insertCommand.Parameters.AddWithValue("@isAvailable", book.IsAvailable);
+                    insertCommand.Parameters.AddWithValue("@price", book.Price);
+                    insertCommand.Parameters.AddWithValue("@stock", book.BooksInStock);
+                    book.ID = Convert.ToInt32(insertCommand.ExecuteScalar());
 
                     SyncRelations(book, transaction);
                     transaction.Commit();
@@ -38,10 +34,6 @@ namespace BookOrg.Src.Logic.Core.DAO
             }
         }
 
-        /// <summary>
-        /// Updates an existing Book entity in the database, including its relations.
-        /// </summary>
-        /// <param name="book">The Book entity to update.</param>
         public override void Update(Book book)
         {
             using (SqlTransaction transaction = connection.BeginTransaction())
@@ -50,17 +42,15 @@ namespace BookOrg.Src.Logic.Core.DAO
                 {
                     string updateQuery = "update book set title = @title, is_available = @isAvailable, price = @price, books_in_stock = @stock where id = @id";
 
-                    SqlCommand command = new SqlCommand(updateQuery, connection, transaction);
-                    command.Parameters.AddWithValue("@title", book.Title);
-                    command.Parameters.AddWithValue("@isAvailable", book.IsAvailable);
-                    command.Parameters.AddWithValue("@price", book.Price);
-                    command.Parameters.AddWithValue("@stock", book.BooksInStock);
-                    command.Parameters.AddWithValue("@id", book.ID);
-                    command.ExecuteNonQuery();
+                    SqlCommand updateCommand = new SqlCommand(updateQuery, connection, transaction);
+                    updateCommand.Parameters.AddWithValue("@title", book.Title);
+                    updateCommand.Parameters.AddWithValue("@isAvailable", book.IsAvailable);
+                    updateCommand.Parameters.AddWithValue("@price", book.Price);
+                    updateCommand.Parameters.AddWithValue("@stock", book.BooksInStock);
+                    updateCommand.Parameters.AddWithValue("@id", book.ID);
+                    updateCommand.ExecuteNonQuery();
 
-                    new SqlCommand($"delete from contribution where book_id = {book.ID}", connection, transaction).ExecuteNonQuery();
-                    new SqlCommand($"delete from classification where book_id = {book.ID}", connection, transaction).ExecuteNonQuery();
-
+                    ClearRelations(book.ID, transaction);
                     SyncRelations(book, transaction);
                     transaction.Commit();
                 }
@@ -72,38 +62,18 @@ namespace BookOrg.Src.Logic.Core.DAO
             }
         }
 
-        /// <summary>
-        /// Synchronizes the many-to-many relations (Authors and Genres) for a book.
-        /// </summary>
-        /// <param name="book">The Book entity containing the relations.</param>
-        /// <param name="transaction">The active SQL transaction.</param>
-        private void SyncRelations(Book book, SqlTransaction transaction)
+        public override void Delete(Book book)
         {
-            foreach (var author in book.Authors)
-            {
-                SqlCommand command = new SqlCommand("insert into contribution (book_id, author_id) values (@bookID, @authorID)", connection, transaction);
-                command.Parameters.AddWithValue("@bookID", book.ID);
-                command.Parameters.AddWithValue("@authorID", author.ID);
-                command.ExecuteNonQuery();
-            }
-            foreach (var genre in book.Genres)
-            {
-                SqlCommand command = new SqlCommand("insert into classification (book_id, genre_id) values (@bookID, @genreID)", connection, transaction);
-                command.Parameters.AddWithValue("@bookID", book.ID);
-                command.Parameters.AddWithValue("@genreID", genre.ID);
-                command.ExecuteNonQuery();
-            }
+            SqlCommand deleteCommand = CreateCommand("delete from book where id = @id");
+            deleteCommand.Parameters.AddWithValue("@id", book.ID);
+            deleteCommand.ExecuteNonQuery();
         }
 
-        /// <summary>
-        /// Retrieves all Book entities from the database, including their relations.
-        /// </summary>
-        /// <returns>A list of Book objects.</returns>
         public override List<Book> GetAll()
         {
             List<Book> books = new List<Book>();
-            SqlCommand command = CreateCommand("select id, title, is_available, price, books_in_stock from book");
-            using (SqlDataReader reader = command.ExecuteReader())
+            SqlCommand getCommand = CreateCommand("select id, title, is_available, price, books_in_stock from book");
+            using (SqlDataReader reader = getCommand.ExecuteReader())
             {
                 while (reader.Read())
                 {
@@ -112,8 +82,8 @@ namespace BookOrg.Src.Logic.Core.DAO
                         reader.GetString(1),
                         reader.GetBoolean(2),
                         reader.GetDecimal(3),
-                        reader.GetInt32(4))
-                    );
+                        reader.GetInt32(4)
+                    ));
                 }
             }
             foreach (Book book in books)
@@ -123,31 +93,29 @@ namespace BookOrg.Src.Logic.Core.DAO
             return books;
         }
 
-        /// <summary>
-        /// Loads the authors and genres for a specific book.
-        /// </summary>
-        /// <param name="book">The Book entity to populate.</param>
         private void LoadRelations(Book book)
         {
-            string loadAuthorsQuery = @$"
-                                       select author.id, author.author_name
-                                       from author
-                                       inner join contribution on author.id = contribution.author_id
-                                       where contribution.book_id = {book.ID}";
+            string authorQuery = @"select author.id, author.author_name
+                                   from author
+                                   inner join contribution on author.id = contribution.author_id
+                                   where contribution.book_id = @bookId";
 
-            SqlCommand authorCommand = CreateCommand(loadAuthorsQuery);
+            SqlCommand authorCommand = CreateCommand(authorQuery);
+            authorCommand.Parameters.AddWithValue("@bookId", book.ID);
+
             using (SqlDataReader reader = authorCommand.ExecuteReader())
             {
                 while (reader.Read()) book.Authors.Add(new Author(reader.GetInt32(0), reader.GetString(1)));
             }
 
-            string loadGenresQuery = @$"
-                                       select genre.id, genre.genre_name
-                                       from genre
-                                       inner join classification on genre.id = classification.genre_id
-                                       where classification.book_id = {book.ID}";
+            string genreQuery = @"select genre.id, genre.genre_name
+                                  from genre
+                                  inner join classification on genre.id = classification.genre_id
+                                  where classification.book_id = @bookId";
 
-            SqlCommand genreCommand = CreateCommand(loadGenresQuery);
+            SqlCommand genreCommand = CreateCommand(genreQuery);
+            genreCommand.Parameters.AddWithValue("@bookId", book.ID);
+
             using (SqlDataReader reader = genreCommand.ExecuteReader())
             {
                 while (reader.Read()) book.Genres.Add(new Genre(reader.GetInt32(0), reader.GetString(1)));
@@ -155,16 +123,51 @@ namespace BookOrg.Src.Logic.Core.DAO
         }
 
         /// <summary>
-        /// Deletes a Book entity from the database.
+        /// Clears existing relations (authors and genres) for a book during an update.
         /// </summary>
-        /// <param name="book">The Book entity to delete.</param>
-        public override void Delete(Book book)
+        /// <param name="bookId">The book ID.</param>
+        /// <param name="transaction">The transaction to which the commands will be added.</param>
+        private void ClearRelations(int bookId, SqlTransaction transaction)
         {
-            SqlCommand command = CreateCommand("delete from book where id = @id");
-            command.Parameters.AddWithValue("@id", book.ID);
-            command.ExecuteNonQuery();
+            SqlCommand deleteContributionCommand = new SqlCommand("delete from contribution where book_id = @bookId", connection, transaction);
+            deleteContributionCommand.Parameters.AddWithValue("@bookId", bookId);
+            deleteContributionCommand.ExecuteNonQuery();
+
+            SqlCommand deleteClassificationCommand = new SqlCommand("delete from classification where book_id = @bookId", connection, transaction);
+            deleteClassificationCommand.Parameters.AddWithValue("@bookId", bookId);
+            deleteClassificationCommand.ExecuteNonQuery();
         }
 
-        public override Book? GetByID(int id) => throw new NotImplementedException();
+        /// <summary>
+        /// Synchronizes the many-to-many relations (Authors and Genres) for a book.
+        /// </summary>
+        /// <param name="book">The book to be synchronized.</param>
+        /// <param name="transaction">The transaction to which the commands will be added.</param>
+        private void SyncRelations(Book book, SqlTransaction transaction)
+        {
+            if (book.Authors.Count > 0)
+            {
+                string authorQuery = "insert into contribution (book_id, author_id) values (@bookId, @authorId)";
+                foreach (Author author in book.Authors)
+                {
+                    SqlCommand authorCommand = new SqlCommand(authorQuery, connection, transaction);
+                    authorCommand.Parameters.AddWithValue("@bookId", book.ID);
+                    authorCommand.Parameters.AddWithValue("@authorId", author.ID);
+                    authorCommand.ExecuteNonQuery();
+                }
+            }
+
+            if (book.Genres.Count > 0)
+            {
+                string genreQuery = "insert into classification (book_id, genre_id) values (@bookId, @genreId)";
+                foreach (Genre genre in book.Genres)
+                {
+                    SqlCommand genreCommand = new SqlCommand(genreQuery, connection, transaction);
+                    genreCommand.Parameters.AddWithValue("@bookId", book.ID);
+                    genreCommand.Parameters.AddWithValue("@genreId", genre.ID);
+                    genreCommand.ExecuteNonQuery();
+                }
+            }
+        }
     }
 }
