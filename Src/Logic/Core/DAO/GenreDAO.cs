@@ -4,17 +4,38 @@ using Microsoft.Data.SqlClient;
 namespace BookOrg.Src.Logic.Core.DAO
 {
     /// <include file='../../../../Docs/ClassDocumentation.xml' path='ClassDocumentation/ClassMembers[@name="GenreDAO"]/*'/>
-    public class GenreDAO : DAOBase<Genre>
+    public class GenreDAO : DAOBase<Genre>, IDAOImportable<Genre>
     {
+        public int ColumnCount => 1;
+
         public GenreDAO(SqlConnection connection) : base(connection) { }
+
+        public Genre FromCsv(string[] values)
+        {
+            return new Genre(values[0].Trim());
+        }
+
+        public void ImportEntity(Genre genre)
+        {
+            Insert(genre);
+        }
 
         /// <summary>
         /// Inserts a new Genre entity into the database.
         /// </summary>
         /// <param name="genre">The Genre entity to be inserted.</param>
+        /// <remarks>
+        /// To make sure that duplicate genres are not added (unique constraint),
+        /// in the query we check if a genre with the same name already exists or not before insertion.
+        /// </remarks>
         public override void Insert(Genre genre)
         {
-            SqlCommand insertCommand = CreateCommand("insert into genre (genre_name) values (@name); select scope_identity();");
+            string insertQuery = @"insert into genre (genre_name)
+                                   select @name
+                                   where not exists (select 1 from genre where genre_name = @name);
+                                   select id from genre where genre_name = @name;";
+
+            SqlCommand insertCommand = CreateCommand(insertQuery);
 
             insertCommand.Parameters.AddWithValue("@name", genre.GenreName);
             genre.ID = Convert.ToInt32(insertCommand.ExecuteScalar());

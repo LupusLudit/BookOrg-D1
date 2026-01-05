@@ -28,6 +28,7 @@
         <Style x:Key="BlueButtonStyle" TargetType="Button">
             <Setter Property="Foreground" Value="#ffffff"/>
             <Setter Property="Background" Value="#2885e2"/>
+            <Setter Property="Padding" Value="2"/>
             <Setter Property="FontWeight" Value="Bold"/>
 
             <Setter Property="Template">

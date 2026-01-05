@@ -1,6 +1,9 @@
 ﻿using BookOrg.Src.Logic.Core.DAO;
 using BookOrg.Src.Logic.Core.DBEntities;
+using BookOrg.Src.Logic.Importing;
+using BookOrg.Src.Safety;
 using Microsoft.Data.SqlClient;
+using Microsoft.Win32;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -38,6 +41,28 @@ namespace BookOrg.Src.UI.DBInteraction.Controls.TableInteraction
                     DeleteItem(genre);
                 }
             }
+        }
+
+        private void ImportClick(object sender, RoutedEventArgs e)
+        {
+            SafeExecutor.Execute(
+                () =>
+                {
+                    OpenFileDialog openFileDialog = new OpenFileDialog
+                    {
+                        Filter = "CSV files (*.csv)|*.csv",
+                        Title = "Import genres from CSV"
+                    };
+
+                    if (openFileDialog.ShowDialog() == true)
+                    {
+                        CsvImporter importer = new CsvImporter();
+                        importer.Import(openFileDialog.FileName, (GenreDAO)Dao);
+                        LoadData();
+                    }
+                },
+                "Failed to import genres from CSV."
+            );
         }
     }
 }

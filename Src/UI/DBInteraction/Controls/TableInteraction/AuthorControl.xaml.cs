@@ -1,6 +1,9 @@
 ﻿using BookOrg.Src.Logic.Core.DAO;
 using BookOrg.Src.Logic.Core.DBEntities;
+using BookOrg.Src.Logic.Importing;
+using BookOrg.Src.Safety;
 using Microsoft.Data.SqlClient;
+using Microsoft.Win32;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -39,6 +42,28 @@ namespace BookOrg.Src.UI.DBInteraction.Controls.TableInteraction
                     DeleteItem(author);
                 }
             }
+        }
+
+        private void ImportClick(object sender, RoutedEventArgs e)
+        {
+            SafeExecutor.Execute(
+                () =>
+                {
+                    OpenFileDialog openFileDialog = new OpenFileDialog
+                    {
+                        Filter = "CSV files (*.csv)|*.csv",
+                        Title = "Import author from CSV"
+                    };
+
+                    if (openFileDialog.ShowDialog() == true)
+                    {
+                        CsvImporter importer = new CsvImporter();
+                        importer.Import(openFileDialog.FileName, (AuthorDAO)Dao);
+                        LoadData();
+                    }
+                },
+                "Failed to import author from CSV."
+            );
         }
     }
 }

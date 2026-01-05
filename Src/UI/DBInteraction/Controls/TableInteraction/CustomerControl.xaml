@@ -17,6 +17,7 @@
         <StackPanel Orientation="Horizontal" Margin="10" Grid.Row="0" VerticalAlignment="Center">
             <TextBlock Text="Customers" FontSize="25" FontWeight="Bold" VerticalAlignment="Center"/>
             <Button Click="AddNewCustomerClick" Style="{StaticResource AddButtonStyle}"/>
+            <Button Content="Import from csv" Click="ImportClick"/>
         </StackPanel>
 
         <DataGrid ItemsSource="{Binding Items}" AutoGenerateColumns="False" CanUserAddRows="False"

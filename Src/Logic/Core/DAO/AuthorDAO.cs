@@ -4,17 +4,38 @@ using Microsoft.Data.SqlClient;
 namespace BookOrg.Src.Logic.Core.DAO
 {
     /// <include file='../../../../Docs/ClassDocumentation.xml' path='ClassDocumentation/ClassMembers[@name="AuthorDAO"]/*'/>
-    public class AuthorDAO : DAOBase<Author>
+    public class AuthorDAO : DAOBase<Author>, IDAOImportable<Author>
     {
+        public int ColumnCount => 1;
+
         public AuthorDAO(SqlConnection connection) : base(connection) { }
+
+        public Author FromCsv(string[] values)
+        {
+            return new Author(values[0].Trim());
+        }
+
+        public void ImportEntity(Author author)
+        {
+            Insert(author);
+        }
 
         /// <summary>
         /// Inserts a new Author entity into the database.
         /// </summary>
         /// <param name="author">The Author entity to be inserted.</param>
+        /// <remarks>
+        /// To make sure that duplicate genres are not added (unique constraint),
+        /// in the query we check if a genre with the same name already exists or not before insertion.
+        /// </remarks>
         public override void Insert(Author author)
         {
-            SqlCommand insertCommand = CreateCommand("insert into author (author_name) values (@name); select scope_identity();");
+            string insertQuery = @"insert into author (author_name)
+                                   select @name
+                                   where not exists (select 1 from author where author_name = @name);
+                                   select id from author where author_name = @name;";
+
+            SqlCommand insertCommand = CreateCommand(insertQuery);
 
             insertCommand.Parameters.AddWithValue("@name", author.AuthorName);
             author.ID = Convert.ToInt32(insertCommand.ExecuteScalar());

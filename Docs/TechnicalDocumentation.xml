@@ -78,6 +78,10 @@
             Inserts a new Author entity into the database.
             </summary>
             <param name="author">The Author entity to be inserted.</param>
+            <remarks>
+            To make sure that duplicate genres are not added (unique constraint),
+            in the query we check if a genre with the same name already exists or not before insertion.
+            </remarks>
         </member>
         <member name="M:BookOrg.Src.Logic.Core.DAO.AuthorDAO.Update(BookOrg.Src.Logic.Core.DBEntities.Author)">
             <summary>
@@ -169,6 +173,10 @@
             Inserts a new Genre entity into the database.
             </summary>
             <param name="genre">The Genre entity to be inserted.</param>
+            <remarks>
+            To make sure that duplicate genres are not added (unique constraint),
+            in the query we check if a genre with the same name already exists or not before insertion.
+            </remarks>
         </member>
         <member name="M:BookOrg.Src.Logic.Core.DAO.GenreDAO.Update(BookOrg.Src.Logic.Core.DBEntities.Genre)">
             <summary>

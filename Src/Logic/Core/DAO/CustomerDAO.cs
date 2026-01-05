@@ -4,9 +4,21 @@ using Microsoft.Data.SqlClient;
 namespace BookOrg.Src.Logic.Core.DAO
 {
     /// <include file='../../../../Docs/ClassDocumentation.xml' path='ClassDocumentation/ClassMembers[@name="CustomerDAO"]/*'/>
-    public class CustomerDAO : DAOBase<Customer>
+    public class CustomerDAO : DAOBase<Customer>, IDAOImportable<Customer>
     {
+        public int ColumnCount => 3;
+
         public CustomerDAO(SqlConnection connection) : base(connection) { }
+
+        public Customer FromCsv(string[] values)
+        {
+            return new Customer(values[0].Trim(), values[1].Trim(), values[2].Trim());
+        }
+
+        public void ImportEntity(Customer customer)
+        {
+            Insert(customer);
+        }
 
         /// <summary>
         /// Inserts a new Customer entity into the database.
