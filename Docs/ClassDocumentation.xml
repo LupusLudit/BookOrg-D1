@@ -73,6 +73,13 @@
 		</summary>
 	</ClassMembers>
 
+	<ClassMembers name="IDAOImportable">
+		<summary>
+			Interface for DAOs that support importing entities from external sources (like CSV).
+			Defines methods for parsing and persisting imported data.
+		</summary>
+	</ClassMembers>
+
 	<ClassMembers name="BookDAO">
 		<summary>
 			Data Access Object for handling database operations related to Books.
@@ -83,18 +90,21 @@
 	<ClassMembers name="AuthorDAO">
 		<summary>
 			Data Access Object for handling database operations related to Authors.
+			Supports importing authors from CSV.
 		</summary>
 	</ClassMembers>
 
 	<ClassMembers name="GenreDAO">
 		<summary>
 			Data Access Object for handling database operations related to Genres.
+			Supports importing genres from CSV.
 		</summary>
 	</ClassMembers>
 
 	<ClassMembers name="CustomerDAO">
 		<summary>
 			Data Access Object for handling database operations related to Customers.
+			Supports importing customers from CSV.
 		</summary>
 	</ClassMembers>
 
@@ -102,6 +112,19 @@
 		<summary>
 			Data Access Object for handling database operations related to Loans.
 			Manages complex loan logic including stock adjustments and tracking returned items.
+		</summary>
+	</ClassMembers>
+
+	<ClassMembers name="IImporter">
+		<summary>
+			Interface defining the contract for file importers.
+		</summary>
+	</ClassMembers>
+
+	<ClassMembers name="CsvImporter">
+		<summary>
+			Implementation of IImporter for CSV files.
+			Reads CSV files and uses an IDAOImportable to parse and save entities.
 		</summary>
 	</ClassMembers>
 
@@ -122,21 +145,21 @@
 	<ClassMembers name="AuthorControl">
 		<summary>
 			UI Control for managing the collection of authors.
-			Allows listing, adding, and deleting authors.
+			Allows listing, adding, and deleting authors, as well as importing them from CSV.
 		</summary>
 	</ClassMembers>
 
 	<ClassMembers name="GenreControl">
 		<summary>
 			UI Control for managing the collection of genres.
-			Allows listing, adding, and deleting genres.
+			Allows listing, adding, and deleting genres, as well as importing them from CSV.
 		</summary>
 	</ClassMembers>
 
 	<ClassMembers name="CustomerControl">
 		<summary>
 			UI Control for managing the collection of customers.
-			Allows listing, adding, editing, and deleting customers.
+			Allows listing, adding, editing, and deleting customers, as well as importing them from CSV.
 		</summary>
 	</ClassMembers>
 

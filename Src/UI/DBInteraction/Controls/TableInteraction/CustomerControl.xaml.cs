@@ -44,6 +44,11 @@ namespace BookOrg.Src.UI.DBInteraction.Controls.TableInteraction
             }
         }
 
+        /// <summary>
+        /// Handles the customer data import from CSV file when the Import button is clicked.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void ImportClick(object sender, RoutedEventArgs e)
         {
             SafeExecutor.Execute(

@@ -10,11 +10,20 @@ namespace BookOrg.Src.Logic.Core.DAO
 
         public GenreDAO(SqlConnection connection) : base(connection) { }
 
+        /// <summary>
+        /// Creates a Genre object from a CSV row.
+        /// </summary>
+        /// <param name="values">Array containing the genre name.</param>
+        /// <returns>A new Genre instance.</returns>
         public Genre FromCsv(string[] values)
         {
             return new Genre(values[0].Trim());
         }
 
+        /// <summary>
+        /// Inserts the imported genre into the database.
+        /// </summary>
+        /// <param name="genre">The genre to import.</param>
         public void ImportEntity(Genre genre)
         {
             Insert(genre);

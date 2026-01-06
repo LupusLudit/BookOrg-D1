@@ -71,7 +71,21 @@
         <member name="T:BookOrg.Src.Logic.Core.DAO.AuthorDAO">
             <summary>
 			Data Access Object for handling database operations related to Authors.
+			Supports importing authors from CSV.
 		</summary>
+        </member>
+        <member name="M:BookOrg.Src.Logic.Core.DAO.AuthorDAO.FromCsv(System.String[])">
+            <summary>
+            Creates an Author object from a CSV row.
+            </summary>
+            <param name="values">Array containing the author name.</param>
+            <returns>A new Author instance.</returns>
+        </member>
+        <member name="M:BookOrg.Src.Logic.Core.DAO.AuthorDAO.ImportEntity(BookOrg.Src.Logic.Core.DBEntities.Author)">
+            <summary>
+            Inserts the imported author into the database.
+            </summary>
+            <param name="author">The author to import.</param>
         </member>
         <member name="M:BookOrg.Src.Logic.Core.DAO.AuthorDAO.Insert(BookOrg.Src.Logic.Core.DBEntities.Author)">
             <summary>
@@ -79,8 +93,8 @@
             </summary>
             <param name="author">The Author entity to be inserted.</param>
             <remarks>
-            To make sure that duplicate genres are not added (unique constraint),
-            in the query we check if a genre with the same name already exists or not before insertion.
+            To make sure that duplicate authors are not added (unique constraint),
+            in the query we check if an author with the same name already exists or not before insertion.
             </remarks>
         </member>
         <member name="M:BookOrg.Src.Logic.Core.DAO.AuthorDAO.Update(BookOrg.Src.Logic.Core.DBEntities.Author)">
@@ -124,7 +138,21 @@
         <member name="T:BookOrg.Src.Logic.Core.DAO.CustomerDAO">
             <summary>
 			Data Access Object for handling database operations related to Customers.
+			Supports importing customers from CSV.
 		</summary>
+        </member>
+        <member name="M:BookOrg.Src.Logic.Core.DAO.CustomerDAO.FromCsv(System.String[])">
+            <summary>
+            Creates a Customer object from a CSV row.
+            </summary>
+            <param name="values">Array containing first name, last name, and email.</param>
+            <returns>A new Customer instance.</returns>
+        </member>
+        <member name="M:BookOrg.Src.Logic.Core.DAO.CustomerDAO.ImportEntity(BookOrg.Src.Logic.Core.DBEntities.Customer)">
+            <summary>
+            Inserts the imported customer into the database.
+            </summary>
+            <param name="customer">The customer to import.</param>
         </member>
         <member name="M:BookOrg.Src.Logic.Core.DAO.CustomerDAO.Insert(BookOrg.Src.Logic.Core.DBEntities.Customer)">
             <summary>
@@ -166,7 +194,21 @@
         <member name="T:BookOrg.Src.Logic.Core.DAO.GenreDAO">
             <summary>
 			Data Access Object for handling database operations related to Genres.
+			Supports importing genres from CSV.
 		</summary>
+        </member>
+        <member name="M:BookOrg.Src.Logic.Core.DAO.GenreDAO.FromCsv(System.String[])">
+            <summary>
+            Creates a Genre object from a CSV row.
+            </summary>
+            <param name="values">Array containing the genre name.</param>
+            <returns>A new Genre instance.</returns>
+        </member>
+        <member name="M:BookOrg.Src.Logic.Core.DAO.GenreDAO.ImportEntity(BookOrg.Src.Logic.Core.DBEntities.Genre)">
+            <summary>
+            Inserts the imported genre into the database.
+            </summary>
+            <param name="genre">The genre to import.</param>
         </member>
         <member name="M:BookOrg.Src.Logic.Core.DAO.GenreDAO.Insert(BookOrg.Src.Logic.Core.DBEntities.Genre)">
             <summary>
@@ -195,6 +237,30 @@
             Retrieves all Genre entities from the database.
             </summary>
             <returns>A list of all Genre objects.</returns>
+        </member>
+        <member name="T:BookOrg.Src.Logic.Core.DAO.IDAOImportable`1">
+            <summary>
+			Interface for DAOs that support importing entities from external sources (like CSV).
+			Defines methods for parsing and persisting imported data.
+		</summary>
+        </member>
+        <member name="P:BookOrg.Src.Logic.Core.DAO.IDAOImportable`1.ColumnCount">
+            <summary>
+            Represents the expected number of columns in the CSV source for this entity.
+            </summary>
+        </member>
+        <member name="M:BookOrg.Src.Logic.Core.DAO.IDAOImportable`1.FromCsv(System.String[])">
+            <summary>
+            Converts an array of string values (from a CSV line) into an entity instance.
+            </summary>
+            <param name="values">The raw string values from the CSV file.</param>
+            <returns>A populated instance of the entity.</returns>
+        </member>
+        <member name="M:BookOrg.Src.Logic.Core.DAO.IDAOImportable`1.ImportEntity(`0)">
+            <summary>
+            Persists the imported entity into the database.
+            </summary>
+            <param name="entity">The entity to insert.</param>
         </member>
         <member name="T:BookOrg.Src.Logic.Core.DAO.LoanDAO">
             <summary>
@@ -307,6 +373,34 @@
 			Contains logic for updating status based on dates.
 		</summary>
         </member>
+        <member name="T:BookOrg.Src.Logic.Importing.CsvImporter">
+            <summary>
+			Implementation of IImporter for CSV files.
+			Reads CSV files and uses an IDAOImportable to parse and save entities.
+		</summary>
+        </member>
+        <member name="M:BookOrg.Src.Logic.Importing.CsvImporter.Import``1(System.String,BookOrg.Src.Logic.Core.DAO.IDAOImportable{``0})">
+            <summary>
+            Reads a CSV file line by line, parses each line into an entity, and persists it using the provided DAO.
+            </summary>
+            <typeparam name="T">The type of the entity to import.</typeparam>
+            <param name="filePath">The path to the CSV file.</param>
+            <param name="importable">The DAO that handles the creation and insertion of the entity.</param>
+            <exception cref="T:System.FormatException">Thrown if a CSV line does not contain the expected number of columns.</exception>
+        </member>
+        <member name="T:BookOrg.Src.Logic.Importing.IImporter">
+            <summary>
+			Interface defining the contract for file importers.
+		</summary>
+        </member>
+        <member name="M:BookOrg.Src.Logic.Importing.IImporter.Import``1(System.String,BookOrg.Src.Logic.Core.DAO.IDAOImportable{``0})">
+            <summary>
+            Imports entities from a specified file using the provided DAO for persistence.
+            </summary>
+            <typeparam name="T">The type of the entity to import (must implement IDBEntity).</typeparam>
+            <param name="filePath">The full path to the source file.</param>
+            <param name="importable">The DAO instance capable of importing this entity type.</param>
+        </member>
         <member name="T:BookOrg.Src.Safety.SafeExecutor">
             <summary>
 			Static utility class responsible for safely executing synchronous and asynchronous actions
@@ -363,11 +457,18 @@
         <member name="T:BookOrg.Src.UI.DBInteraction.Controls.TableInteraction.AuthorControl">
             <summary>
 			UI Control for managing the collection of authors.
-			Allows listing, adding, and deleting authors.
+			Allows listing, adding, and deleting authors, as well as importing them from CSV.
 		</summary>
             <summary>
             AuthorControl
             </summary>
+        </member>
+        <member name="M:BookOrg.Src.UI.DBInteraction.Controls.TableInteraction.AuthorControl.ImportClick(System.Object,System.Windows.RoutedEventArgs)">
+            <summary>
+            Handles the author data import from CSV file when the Import button is clicked.
+            </summary>
+            <param name="sender">The sender.</param>
+            <param name="e">The <see cref="T:System.Windows.RoutedEventArgs"/> instance containing the event data.</param>
         </member>
         <member name="M:BookOrg.Src.UI.DBInteraction.Controls.TableInteraction.AuthorControl.InitializeComponent">
             <summary>
@@ -396,11 +497,18 @@
         <member name="T:BookOrg.Src.UI.DBInteraction.Controls.TableInteraction.CustomerControl">
             <summary>
 			UI Control for managing the collection of customers.
-			Allows listing, adding, editing, and deleting customers.
+			Allows listing, adding, editing, and deleting customers, as well as importing them from CSV.
 		</summary>
             <summary>
             CustomerControl
             </summary>
+        </member>
+        <member name="M:BookOrg.Src.UI.DBInteraction.Controls.TableInteraction.CustomerControl.ImportClick(System.Object,System.Windows.RoutedEventArgs)">
+            <summary>
+            Handles the customer data import from CSV file when the Import button is clicked.
+            </summary>
+            <param name="sender">The sender.</param>
+            <param name="e">The <see cref="T:System.Windows.RoutedEventArgs"/> instance containing the event data.</param>
         </member>
         <member name="M:BookOrg.Src.UI.DBInteraction.Controls.TableInteraction.CustomerControl.InitializeComponent">
             <summary>
@@ -439,11 +547,18 @@
         <member name="T:BookOrg.Src.UI.DBInteraction.Controls.TableInteraction.GenreControl">
             <summary>
 			UI Control for managing the collection of genres.
-			Allows listing, adding, and deleting genres.
+			Allows listing, adding, and deleting genres, as well as importing them from CSV.
 		</summary>
             <summary>
             GenreControl
             </summary>
+        </member>
+        <member name="M:BookOrg.Src.UI.DBInteraction.Controls.TableInteraction.GenreControl.ImportClick(System.Object,System.Windows.RoutedEventArgs)">
+            <summary>
+            Handles the genre data import from CSV file when the Import button is clicked.
+            </summary>
+            <param name="sender">The sender.</param>
+            <param name="e">The <see cref="T:System.Windows.RoutedEventArgs"/> instance containing the event data.</param>
         </member>
         <member name="M:BookOrg.Src.UI.DBInteraction.Controls.TableInteraction.GenreControl.InitializeComponent">
             <summary>

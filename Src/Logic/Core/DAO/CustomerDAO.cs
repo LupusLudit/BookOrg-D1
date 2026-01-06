@@ -10,11 +10,20 @@ namespace BookOrg.Src.Logic.Core.DAO
 
         public CustomerDAO(SqlConnection connection) : base(connection) { }
 
+        /// <summary>
+        /// Creates a Customer object from a CSV row.
+        /// </summary>
+        /// <param name="values">Array containing first name, last name, and email.</param>
+        /// <returns>A new Customer instance.</returns>
         public Customer FromCsv(string[] values)
         {
             return new Customer(values[0].Trim(), values[1].Trim(), values[2].Trim());
         }
 
+        /// <summary>
+        /// Inserts the imported customer into the database.
+        /// </summary>
+        /// <param name="customer">The customer to import.</param>
         public void ImportEntity(Customer customer)
         {
             Insert(customer);

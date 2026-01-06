@@ -10,11 +10,20 @@ namespace BookOrg.Src.Logic.Core.DAO
 
         public AuthorDAO(SqlConnection connection) : base(connection) { }
 
+        /// <summary>
+        /// Creates an Author object from a CSV row.
+        /// </summary>
+        /// <param name="values">Array containing the author name.</param>
+        /// <returns>A new Author instance.</returns>
         public Author FromCsv(string[] values)
         {
             return new Author(values[0].Trim());
         }
 
+        /// <summary>
+        /// Inserts the imported author into the database.
+        /// </summary>
+        /// <param name="author">The author to import.</param>
         public void ImportEntity(Author author)
         {
             Insert(author);
@@ -25,8 +34,8 @@ namespace BookOrg.Src.Logic.Core.DAO
         /// </summary>
         /// <param name="author">The Author entity to be inserted.</param>
         /// <remarks>
-        /// To make sure that duplicate genres are not added (unique constraint),
-        /// in the query we check if a genre with the same name already exists or not before insertion.
+        /// To make sure that duplicate authors are not added (unique constraint),
+        /// in the query we check if an author with the same name already exists or not before insertion.
         /// </remarks>
         public override void Insert(Author author)
         {
