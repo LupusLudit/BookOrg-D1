@@ -30,7 +30,7 @@ namespace BookOrg.Src.Logic.Core.DBEntities
             get => title;
             set
             {
-                if (!string.IsNullOrEmpty(value))
+                if (!string.IsNullOrEmpty(value) && value.Length <= 100)
                 {
                     title = value;
                     OnPropertyChanged();

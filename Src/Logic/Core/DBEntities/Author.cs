@@ -22,7 +22,7 @@
             get => authorName;
             set
             {
-                if (!string.IsNullOrEmpty(value))
+                if (!string.IsNullOrEmpty(value) && value.Length <= 100)
                 {
                     authorName = value;
                 }

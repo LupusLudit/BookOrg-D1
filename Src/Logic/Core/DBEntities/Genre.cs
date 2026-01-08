@@ -22,7 +22,7 @@
             get => genreName;
             set
             {
-                if (!string.IsNullOrEmpty(value))
+                if (!string.IsNullOrEmpty(value) && value.Length <= 50)
                 {
                     genreName = value;
                 }

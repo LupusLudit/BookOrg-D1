@@ -26,7 +26,7 @@ namespace BookOrg.Src.Logic.Core.DBEntities
             get => firstName;
             set
             {
-                if (!string.IsNullOrEmpty(value))
+                if (!string.IsNullOrEmpty(value) && value.Length <= 100)
                 {
                     firstName = value;
                 }
@@ -38,7 +38,7 @@ namespace BookOrg.Src.Logic.Core.DBEntities
             get => lastName;
             set
             {
-                if (!string.IsNullOrEmpty(value))
+                if (!string.IsNullOrEmpty(value) && value.Length <= 100)
                 {
                     lastName = value;
                 }
@@ -50,7 +50,7 @@ namespace BookOrg.Src.Logic.Core.DBEntities
             get => email;
             set
             {
-                if (!string.IsNullOrEmpty(value) && Regex.IsMatch(value, @"^[a-zA-Z0-9._+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"))
+                if (!string.IsNullOrEmpty(value) && Regex.IsMatch(value, @"^[a-zA-Z0-9._+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$") && value.Length <= 100)
                 {
                     email = value;
                 }

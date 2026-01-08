@@ -61,7 +61,7 @@ namespace BookOrg.Src.Logic.Core.DBEntities
             get => bookTitle;
             set
             {
-                if (!string.IsNullOrEmpty(value))
+                if (!string.IsNullOrEmpty(value) && value.Length <= 100)
                 {
                     bookTitle = value;
                     OnPropertyChanged();
@@ -74,7 +74,7 @@ namespace BookOrg.Src.Logic.Core.DBEntities
             get => customerName;
             set
             {
-                if (!string.IsNullOrEmpty(value))
+                if (!string.IsNullOrEmpty(value) && value.Length <= 100)
                 {
                     customerName = value;
                     OnPropertyChanged();
@@ -100,7 +100,7 @@ namespace BookOrg.Src.Logic.Core.DBEntities
             get => loanStatus;
             set
             {
-                if (loanStatus != value)
+                if (loanStatus != value && value.Length <= 10)
                 {
                     loanStatus = value;
 
